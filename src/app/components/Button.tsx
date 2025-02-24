@@ -1,5 +1,5 @@
 type Props = {
-    buttonLabel: String;
+    buttonLabel: string;
 }
 
 export default function Button({buttonLabel}: Props) {
