@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router";
+import { MockComponent } from "../features/MockFeature/MockComponent";
 
 function AppRouter() {
   return (
@@ -6,7 +7,7 @@ function AppRouter() {
       <Routes>
         <Route
           path="/"
-          element={<h1>Elite Space</h1>}
+          element={<MockComponent />}
         ></Route>
       </Routes>
     </Router>

@@ -1,9 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
+import mockSlice from "../features/MockFeature/mockSlice";
 
 const store = configureStore({
-  reducer: {},
+  reducer: {
+    mock: mockSlice,
+  },
 });
 
-export type Rootstate = ReturnType<typeof store.getState>;
+export type RootState = ReturnType<typeof store.getState>;
 
 export default store;
