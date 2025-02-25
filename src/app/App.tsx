@@ -1,6 +1,6 @@
 import AppProvider from "./Provider";
 import AppRouter from "./Router";
-import PostRequestComponent from "./Services/PostRequestComponent";
+import PostRequestComponent from "../utils/PostRequestComponent";
 
 function App() {
   return (
