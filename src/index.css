@@ -1,11 +1,10 @@
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  /* Color Pallette */
+  --color-primary: #1a3b5d;
+  --color-secondary: #28a2a2;
+  --color-accent: #5b3e96;
+  --color-background: #f8f9fa;
+  --color-text: #2f2f2f;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -13,9 +12,14 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+@font-face {
+  font-family: "Poppins";
+  src: local("Poppins-Regular") url("/src/assets/fonts/Poppins-Regular.ttf");
+}
+
 a {
   font-weight: 500;
-  color: #646cff;
+  color: var(--color-text);
   text-decoration: inherit;
 }
 a:hover {
@@ -23,11 +27,9 @@ a:hover {
 }
 
 body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  font-family: "Poppins";
+  background-color: var(--color-background);
+  color: var(--color-text);
 }
 
 h1 {
@@ -56,13 +58,13 @@ button:focus-visible {
 
 @media (prefers-color-scheme: light) {
   :root {
-    color: #213547;
-    background-color: #ffffff;
+    color: var(--color-text);
+    background-color: var(--color-background);
   }
   a:hover {
-    color: #747bff;
+    color: var(--color-secondary);
   }
   button {
-    background-color: #f9f9f9;
+    background-color: var(--color-accent);
   }
 }
