@@ -5,10 +5,7 @@ function AppRouter() {
   return (
     <Router>
       <Routes>
-        <Route
-          path="/"
-          element={<MockComponent />}
-        ></Route>
+        <Route path="/" element={<MockComponent />}></Route>
       </Routes>
     </Router>
   );
