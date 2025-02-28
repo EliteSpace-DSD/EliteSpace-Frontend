@@ -3,7 +3,7 @@ interface ApiResponse {
   json: () => Promise<{ message?: string; error?: string }>;
 }
 
-const mockApiCall = (): Promise<ApiResponse> => {
+export const mockApiCall = (): Promise<ApiResponse> => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       //Mirrors the response of a server
