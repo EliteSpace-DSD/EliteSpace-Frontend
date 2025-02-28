@@ -1,18 +1,11 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router";
-import ButtonUsage from "../components/ButtonUsage";
+import { MockComponent } from "../features/MockFeature/MockComponent";
+
 function AppRouter() {
   return (
     <Router>
       <Routes>
-        <Route
-          path="/"
-          element={
-            <>
-              <ButtonUsage />
-              <h1>Elite Space</h1>
-            </>
-          }
-        ></Route>
+        <Route path="/" element={<MockComponent />}></Route>
       </Routes>
     </Router>
   );
