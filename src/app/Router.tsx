@@ -1,12 +1,17 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router";
-
+import ButtonUsage from "../components/ButtonUsage";
 function AppRouter() {
   return (
     <Router>
       <Routes>
         <Route
           path="/"
-          element={<h1>Elite Space</h1>}
+          element={
+            <>
+              <ButtonUsage />
+              <h1>Elite Space</h1>
+            </>
+          }
         ></Route>
       </Routes>
     </Router>
