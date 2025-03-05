@@ -1,0 +1,113 @@
+.login-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 60px;
+}
+
+.login-header-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+}
+
+.login-header-container h1 {
+  margin: 0;
+  font-size: 44px;
+}
+
+.login-form {
+  height: 380px;
+  width: 290px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.email-container,
+.password-container {
+  gap: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.login-label {
+  width: 100%;
+  color: #000 !important; /* !important to override MUI */
+}
+
+.email-input,
+.password-input {
+  width: 85%;
+}
+
+.remember-login {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 16px;
+}
+
+.remember-login input,
+.remember-login label {
+  margin: 0;
+}
+
+.remember-login label {
+  font-size: 13px;
+  padding-top: 2px;
+}
+
+.login-btns-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.sign-in-btn,
+.register-btn {
+  width: 58%;
+  color: white !important;
+  text-transform: none !important;
+}
+
+.sign-in-btn {
+  background-color: #28a2a2 !important;
+}
+
+.register-btn {
+  background-color: #1a3b5d !important;
+}
+
+a {
+  width: 100%;
+  text-align: center;
+  margin: 0 auto;
+}
+
+@media (min-width: 600px) {
+  .login-container {
+    width: 600px;
+  }
+
+  .login-form {
+    width: 400px;
+  }
+
+  .email-container,
+  .password-container {
+    width: 100%;
+  }
+}
