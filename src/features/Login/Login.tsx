@@ -1,4 +1,4 @@
-import { Box, TextField, Stack, InputLabel, Link, Button, Container } from "@mui/material";
+import { Box, TextField, Stack, InputLabel, Link, Button, Container, Typography } from "@mui/material";
 
 const Login = () => {
   return (
@@ -25,8 +25,15 @@ const Login = () => {
           component="section"
           sx={{ display: "flex", flexDirection: "column", gap: 1, alignItems: "center" }}
         >
-          <div>Logo</div>
-          <h1 style={{ margin: 0, fontSize: "44px" }}>EliteSpace</h1>
+          <Box>Logo</Box>
+          <Typography
+            variant="h3"
+            component="h1"
+            fontWeight={600}
+            sx={{ margin: 0 }}
+          >
+            EliteSpace
+          </Typography>
         </Stack>
         <Stack
           sx={{
