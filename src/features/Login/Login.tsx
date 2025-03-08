@@ -88,7 +88,7 @@ const Login = () => {
               variant="contained"
               sx={{ width: "58%", bgcolor: "#28a2a2", color: "white", textTransform: "none" }}
             >
-              Sign in
+              Log in
             </Button>
             <Button
               variant="contained"
