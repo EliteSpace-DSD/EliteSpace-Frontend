@@ -1,4 +1,5 @@
 import { Box, Stack, Button, Typography } from "@mui/material";
+import { Link } from "react-router";
 
 const GuestParkingApproved = () => {
   return (
@@ -40,7 +41,12 @@ const GuestParkingApproved = () => {
         <Typography variant="body1">
           <strong>Expiration Time:</strong> 4:00 PM
         </Typography>
-        <Button variant="contained">Go Back</Button>
+        <Link
+          to="/parking"
+          style={{ textDecoration: "none", width: "100%", margin: "0 auto", display: "flex", justifyContent: "center" }}
+        >
+          <Button variant="contained">Go Back</Button>
+        </Link>
       </Stack>
     </Box>
   );

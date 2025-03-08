@@ -1,5 +1,5 @@
 import { Stack, InputLabel, TextField, Button, Typography, Container } from "@mui/material";
-import "./GuestParking.css";
+import { Link } from "react-router";
 
 const GuestParking = () => {
   return (
@@ -67,17 +67,22 @@ const GuestParking = () => {
             />
           </Stack>
         </Stack>
-        <Button
-          variant="contained"
-          sx={{
-            width: "60%",
-            height: "50px",
-            margin: "0 auto",
-            marginTop: "10px",
-          }}
+        <Link
+          to="/parking/approved"
+          style={{ textDecoration: "none", width: "100%", margin: "0 auto", display: "flex", justifyContent: "center" }}
         >
-          Issue Permit
-        </Button>
+          <Button
+            variant="contained"
+            sx={{
+              width: "60%",
+              height: "50px",
+              margin: "0 auto",
+              marginTop: "10px",
+            }}
+          >
+            Issue Permit
+          </Button>
+        </Link>
       </Stack>
     </Container>
   );
