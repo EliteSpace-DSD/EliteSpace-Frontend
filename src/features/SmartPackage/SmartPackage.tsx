@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import { styled } from "@mui/material/styles";
+import { useNavigate } from "react-router";
 
 let mockInformation = [
   { package: "Package #1", status: "Delivered 2/12/25", time: "2:45PM" },
