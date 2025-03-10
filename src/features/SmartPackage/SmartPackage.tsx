@@ -3,7 +3,6 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import { styled } from "@mui/material/styles";
-import "./SmartPackage.css";
 
 let mockInformation = [
   { package: "Package #1", status: "Delivered 2/12/25", time: "2:45PM" },
@@ -22,9 +21,9 @@ const Item = styled(Paper)(({ theme }) => ({
 
 export const SmartPackage = () => {
   return (
-    <div className="smartPackageContainer">
+    <Stack sx={{ mt: 4, alignItems: "center" }}>
       <Box sx={{ width: "30%" }}>
-        <div className="itemContainer">
+        <Stack className="itemContainer">
           <Stack spacing={2}>
             {mockInformation.map((item, index) => (
               <Item key={index}>
@@ -36,8 +35,8 @@ export const SmartPackage = () => {
               </Item>
             ))}
           </Stack>
-        </div>
+        </Stack>
       </Box>
-    </div>
+    </Stack>
   );
 };
