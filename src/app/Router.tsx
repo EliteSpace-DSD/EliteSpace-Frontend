@@ -22,6 +22,9 @@ function AppRouter() {
         <Route path="/password-reset" element={<PasswordReset />} />
         <Route path="/smartpackage" element={<SmartPackage />} />
         <Route path="/smartpackage/:id" element={<PackageDetails />} />
+        <Route path='/' element={<HomePage />}></Route>
+        <Route path='/parking' element={<GuestParking />}></Route>
+        <Route path='/parking/approved' element={<GuestParkingApproved />}></Route>
       </Routes>
     </Router>
   );
