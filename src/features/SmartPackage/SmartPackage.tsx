@@ -30,7 +30,7 @@ export const SmartPackage = () => {
   return (
     <Stack sx={{ mt: 4, alignItems: "center" }}>
       <Box sx={{ width: "30%" }}>
-        <Stack className="itemContainer">
+        <Stack>
           <Stack spacing={2}>
             {mockInformation.map((item) => (
               <Item key={item.id} onClick={() => handleItemClick(item.id)}>
