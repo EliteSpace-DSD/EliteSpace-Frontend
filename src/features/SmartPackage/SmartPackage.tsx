@@ -6,8 +6,8 @@ import { styled } from "@mui/material/styles";
 import { useNavigate } from "react-router";
 
 let mockInformation = [
-  { package: "Package #1", status: "Delivered 2/12/25", time: "2:45PM" },
-  { package: "Package #2", status: "Delivered 2/12/25", time: "4:16PM" },
+  { id: 1, package: "Package #1", status: "Delivered 2/12/25", time: "2:45PM" },
+  { id: 2, package: "Package #2", status: "Delivered 2/12/25", time: "4:16PM" },
 ];
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: "#fff",
@@ -21,13 +21,19 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export const SmartPackage = () => {
+  const navigate = useNavigate();
+
+  const handleItemClick = (id: number) => {
+    navigate(`/smartpackage/${id}`);
+  };
+
   return (
     <Stack sx={{ mt: 4, alignItems: "center" }}>
       <Box sx={{ width: "30%" }}>
         <Stack className="itemContainer">
           <Stack spacing={2}>
-            {mockInformation.map((item, index) => (
-              <Item key={index}>
+            {mockInformation.map((item) => (
+              <Item key={item.id} onClick={() => handleItemClick(item.id)}>
                 {item.package}
                 <br />
                 {item.status}
