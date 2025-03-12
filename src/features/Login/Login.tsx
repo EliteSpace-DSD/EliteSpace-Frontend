@@ -1,6 +1,43 @@
-import { Box, TextField, Stack, InputLabel, Link, Button, Container, Typography } from "@mui/material";
+import { Box, TextField, Stack, InputLabel, Link, Button, Container, Typography, Alert } from "@mui/material";
+import { useLoginMutation } from "./api/loginApi";
+import { useNavigate } from "react-router";
+import { useState } from "react";
 
 const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const [login, { isLoading }] = useLoginMutation();
+  const navigate = useNavigate();
+
+  const handleLogin = async () => {
+    setErrorMessage(null);
+
+    if (!email || !password) {
+      setErrorMessage("Both email and password are required.");
+      return;
+    }
+
+    try {
+      const response = await login({ email, password }).unwrap();
+      if (response.message === "Signed in successfully") {
+        navigate("/");
+      }
+    } catch (error: unknown) {
+      if (error && typeof error === "object" && "status" in error) {
+        const typedError = error as { status?: number; message: string };
+        if (typedError.status === 401) {
+          setErrorMessage("Invalid email or password. Please try again.");
+        } else {
+          setErrorMessage(typedError.message || "Failed to retrieve session.");
+        }
+      } else {
+        setErrorMessage("An unknown error occurred.");
+      }
+    }
+  };
+
   return (
     <Container
       sx={{
@@ -35,6 +72,7 @@ const Login = () => {
             EliteSpace
           </Typography>
         </Stack>
+        {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
         <Stack
           sx={{
             height: 380,
@@ -55,6 +93,9 @@ const Login = () => {
               size="small"
               variant="outlined"
               sx={{ width: "85%" }}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
             />
           </Stack>
           <Stack sx={{ gap: 2, display: "flex", flexDirection: "column", alignItems: "center" }}>
@@ -69,6 +110,9 @@ const Login = () => {
               size="small"
               variant="outlined"
               sx={{ width: "85%" }}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
             />
           </Stack>
           <Box sx={{ display: "flex", alignItems: "center", gap: 1, ml: 2 }}>
@@ -87,8 +131,10 @@ const Login = () => {
             <Button
               variant="contained"
               sx={{ width: "58%", bgcolor: "#28a2a2", color: "white", textTransform: "none" }}
+              onClick={handleLogin}
+              disabled={isLoading}
             >
-              Log in
+              {isLoading ? "Logging in..." : "Log in"}
             </Button>
             <Button
               variant="contained"
