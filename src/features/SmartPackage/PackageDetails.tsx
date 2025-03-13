@@ -1,4 +1,3 @@
-import React from "react";
 import { useParams } from "react-router";
 import {
   Stack,
@@ -18,7 +17,6 @@ let mockInformation = [
 const Item = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(1),
   textAlign: "center",
-  color: theme.palette.text.secondary,
 }));
 
 export const PackageDetails = () => {

@@ -1,7 +1,4 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
-import Stack from "@mui/material/Stack";
+import { Paper, Stack, Container } from "@mui/material/";
 import { styled } from "@mui/material/styles";
 import { useNavigate } from "react-router";
 
@@ -10,10 +7,8 @@ let mockInformation = [
   { id: 2, package: "Package #2", status: "Delivered 2/12/25", time: "4:16PM" },
 ];
 const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: "#fff",
   padding: theme.spacing(1),
   textAlign: "center",
-  color: theme.palette.text.secondary,
 }));
 
 export const SmartPackage = () => {
@@ -24,22 +19,26 @@ export const SmartPackage = () => {
   };
 
   return (
-    <Stack sx={{ mt: 4, alignItems: "center" }}>
-      <Box sx={{ width: "30%" }}>
-        <Stack>
-          <Stack spacing={2}>
-            {mockInformation.map((item) => (
-              <Item key={item.id} onClick={() => handleItemClick(item.id)}>
-                {item.package}
-                <br />
-                {item.status}
-                <br />
-                {item.time}
-              </Item>
-            ))}
-          </Stack>
-        </Stack>
-      </Box>
-    </Stack>
+    <Container
+      sx={{
+        mt: 5,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        position: "relative",
+      }}
+    >
+      <Stack sx={{ width: "100%", maxWidth: 400, mt: 2 }} spacing={2}>
+        {mockInformation.map((item) => (
+          <Item key={item.id} onClick={() => handleItemClick(item.id)}>
+            {item.package}
+            <br />
+            {item.status}
+            <br />
+            {item.time}
+          </Item>
+        ))}
+      </Stack>
+    </Container>
   );
 };
