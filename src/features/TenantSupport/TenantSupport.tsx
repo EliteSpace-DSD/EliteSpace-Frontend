@@ -7,6 +7,7 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import ListSubheader from "@mui/material/ListSubheader";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
+import Input from "@mui/material/Input";
 import { Typography } from "@mui/material";
 import { setSelectedIssue } from "../../stores/issueSlice";
 import { useSelector, useDispatch } from "react-redux";
@@ -61,7 +62,12 @@ export const TenantSupport = () => {
   };
 
   return (
-    <>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        console.log("Form Submitted");
+      }}
+    >
       <Stack maxWidth="md">
         <Typography variant="h3"> Tenant Support</Typography>
         <Stack sx={{ mt: 4 }} className="tenant-question-one">
@@ -70,7 +76,7 @@ export const TenantSupport = () => {
           </Typography>
         </Stack>
         <Stack>
-          <FormControl sx={{ m: 1, width: 500 }}>
+          <FormControl sx={{ m: 1, width: 500 }} required>
             <InputLabel id="issue-label">Issue</InputLabel>
             <Select
               labelId="issue-label"
@@ -97,7 +103,6 @@ export const TenantSupport = () => {
             so we can route you to the proper channel in our team.
           </Typography>
         </Stack>
-
         <Stack sx={{ m: 1, width: 500 }}>
           <TextField
             id="issue-description"
@@ -106,13 +111,16 @@ export const TenantSupport = () => {
             variant="outlined"
           />
         </Stack>
+        <Stack>
+          <Input type="file" inputProps={{ accept: "image/*" }} />
+        </Stack>
+        {/*Form Submit Button */}
         <Stack direction="row" spacing={2} justifyContent="center">
-          <Button variant="contained">Submit</Button>
-          <Button variant="outlined" color="error">
-            Cancel
+          <Button type="submit" variant="contained">
+            Submit
           </Button>
         </Stack>
       </Stack>
-    </>
+    </form>
   );
 };
