@@ -1,12 +1,25 @@
 import React from "react";
 import { useParams } from "react-router";
-import { Box, Stack, Typography, Button, Container } from "@mui/material";
+import {
+  Stack,
+  Typography,
+  Button,
+  Container,
+  styled,
+  Paper,
+} from "@mui/material";
 import { useNavigate } from "react-router";
 
 let mockInformation = [
   { id: 1, package: "Package #1", status: "Delivered 2/12/25", time: "2:45PM" },
   { id: 2, package: "Package #2", status: "Delivered 2/12/25", time: "4:16PM" },
 ];
+
+const Item = styled(Paper)(({ theme }) => ({
+  padding: theme.spacing(1),
+  textAlign: "center",
+  color: theme.palette.text.secondary,
+}));
 
 export const PacakgeDetails = () => {
   const { id } = useParams<{ id: string }>();
@@ -20,21 +33,34 @@ export const PacakgeDetails = () => {
 
   return (
     <>
-      <Container sx={{ mt: 5 }}>
+      <Container
+        sx={{
+          mt: 5,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
         <Button variant="outlined" onClick={handleBackClick}>
           Back
         </Button>
-        <Stack sx={{ mt: 1 }}>
-          <Box>
-            <Typography>{packageDetails?.package}</Typography>
-            <Typography>Status: {packageDetails?.status}</Typography>
-            <Typography>Delivery Time {packageDetails?.time}</Typography>
-          </Box>
-          <Typography>Locker Number 2025</Typography>
+        <Stack sx={{ width: "100%", maxWidth: 400, mt: 2 }} spacing={2}>
+          <Item>
+            <Typography variant="h6">{packageDetails?.package}</Typography>
+            <Typography>{packageDetails?.status}</Typography>
+            <Typography>{packageDetails?.time}</Typography>
+          </Item>
+          <Item>
+            <Typography variant="h6">Locker Access Code</Typography>
+            <Typography sx={{ fontWeight: "bold", fontSize: "1.5rem" }}>
+              {/* Code from backend goes here */} 12345
+            </Typography>
+          </Item>
           <Typography>
-            Instructions: Enter in the keypad at the package locker. Expires
-            after 24 hours
+            Instructions: Enter code into the keypad at the package locker. Step
+            back and wait for the locker door to open.
           </Typography>
+          <Typography>Locker Access Code expires after 24 hours</Typography>
         </Stack>
       </Container>
     </>
