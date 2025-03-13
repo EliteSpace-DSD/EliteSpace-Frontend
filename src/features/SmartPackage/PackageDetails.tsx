@@ -9,9 +9,29 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router";
 
+interface mockInformation {
+  id: number;
+  package: string;
+  deliveredHour: number;
+  deliveredMin: number;
+  deliveredDate: Date;
+}
+
 let mockInformation = [
-  { id: 1, package: "Package #1", status: "Delivered 2/12/25", time: "2:45PM" },
-  { id: 2, package: "Package #2", status: "Delivered 2/12/25", time: "4:16PM" },
+  {
+    id: 1,
+    package: "Package #1",
+    deliveredHour: 16,
+    deliveredMin: 16,
+    deliveredDate: "2/12/25",
+  },
+  {
+    id: 2,
+    package: "Package #2",
+    deliveredDate: "2/12/25",
+    deliveredHour: 10,
+    deliveredMin: 30,
+  },
 ];
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -27,6 +47,13 @@ export const PackageDetails = () => {
 
   const handleBackClick = () => {
     navigate("/smartpackage");
+  };
+
+  const formatTime = (hour: number, min: number) => {
+    const ampm = hour >= 12 ? "PM" : "AM";
+    const formatHour = hour % 12 || 12;
+    const formatMin = min.toString().padStart(2, "0");
+    return `${formatHour}:${formatMin} ${ampm}`;
   };
 
   return (
@@ -50,8 +77,13 @@ export const PackageDetails = () => {
           </Button>
           <Item>
             <Typography>{packageDetails?.package}</Typography>
-            <Typography>{packageDetails?.status}</Typography>
-            <Typography>{packageDetails?.time}</Typography>
+            <Typography>Delivered {packageDetails?.deliveredDate}</Typography>
+            <Typography>
+              {formatTime(
+                packageDetails?.deliveredHour,
+                packageDetails?.deliveredMin
+              )}
+            </Typography>
           </Item>
           <Item>
             <Typography variant="h6">Locker Access Code</Typography>

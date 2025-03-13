@@ -2,9 +2,29 @@ import { Paper, Stack, Container, Typography } from "@mui/material/";
 import { styled } from "@mui/material/styles";
 import { useNavigate } from "react-router";
 
+interface mockInformation {
+  id: number;
+  package: string;
+  deliveredHour: number;
+  deliveredMin: number;
+  deliveredDate: Date;
+}
+
 let mockInformation = [
-  { id: 1, package: "Package #1", status: "Delivered 2/12/25", time: "2:45PM" },
-  { id: 2, package: "Package #2", status: "Delivered 2/12/25", time: "4:16PM" },
+  {
+    id: 1,
+    package: "Package #1",
+    deliveredHour: 16,
+    deliveredMin: 16,
+    deliveredDate: "2/12/25",
+  },
+  {
+    id: 2,
+    package: "Package #2",
+    deliveredDate: "2/12/25",
+    deliveredHour: 10,
+    deliveredMin: 30,
+  },
 ];
 const Item = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(1),
@@ -16,6 +36,13 @@ export const SmartPackage = () => {
 
   const handleItemClick = (id: number) => {
     navigate(`/smartpackage/${id}`);
+  };
+
+  const formatTime = (hour: number, min: number) => {
+    const ampm = hour >= 12 ? "PM" : "AM";
+    const formatHour = hour % 12 || 12;
+    const formatMin = min.toString().padStart(2, "0");
+    return `${formatHour}:${formatMin} ${ampm}`;
   };
 
   return (
@@ -32,8 +59,10 @@ export const SmartPackage = () => {
         {mockInformation.map((item) => (
           <Item key={item.id} onClick={() => handleItemClick(item.id)}>
             <Typography>{item.package}</Typography>
-            <Typography>{item.status}</Typography>
-            <Typography>{item.time}</Typography>
+            <Typography> Delivered {item.deliveredDate}</Typography>
+            <Typography>
+              {formatTime(item.deliveredHour, item.deliveredMin)}
+            </Typography>
           </Item>
         ))}
       </Stack>
