@@ -49,7 +49,7 @@ export const PackageDetails = () => {
             Back
           </Button>
           <Item>
-            <Typography variant="h6">{packageDetails?.package}</Typography>
+            <Typography>{packageDetails?.package}</Typography>
             <Typography>{packageDetails?.status}</Typography>
             <Typography>{packageDetails?.time}</Typography>
           </Item>

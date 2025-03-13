@@ -1,4 +1,4 @@
-import { Paper, Stack, Container } from "@mui/material/";
+import { Paper, Stack, Container, Typography } from "@mui/material/";
 import { styled } from "@mui/material/styles";
 import { useNavigate } from "react-router";
 
@@ -31,11 +31,9 @@ export const SmartPackage = () => {
       <Stack sx={{ width: "100%", maxWidth: 400, mt: 2 }} spacing={2}>
         {mockInformation.map((item) => (
           <Item key={item.id} onClick={() => handleItemClick(item.id)}>
-            {item.package}
-            <br />
-            {item.status}
-            <br />
-            {item.time}
+            <Typography>{item.package}</Typography>
+            <Typography>{item.status}</Typography>
+            <Typography>{item.time}</Typography>
           </Item>
         ))}
       </Stack>
