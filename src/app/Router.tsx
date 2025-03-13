@@ -19,24 +19,15 @@ function AppRouter() {
         <Route path="/tenant-support" element={<TenantSupport />}></Route>
         <Route path="/api-call" element={<TestApiCall />}></Route>
         {/* <Route path="/mock" element={<MockComponent />}></Route> */}
-        <Route
-          path="/"
-          element={<HomePage />}
-        ></Route>
-        <Route
-          path="/signup"
-          element={<SignupPage />}
-        />
-        <Route
-          path="/parking"
-          element={<GuestParking />}
-        ></Route>
+        <Route path="/" element={<HomePage />}></Route>
+        <Route path="/signup" element={<SignupPage />} />
+        <Route path="/parking" element={<GuestParking />}></Route>
+        {/* Fixed only 1 <Route> needed 2 */}
         <Route
           path="/parking/approved"
           element={<GuestParkingApproved />}
-          path="/login"
-          element={<Login />}
         ></Route>
+        <Route path="/login" element={<Login />}></Route>
       </Routes>
     </Router>
   );
