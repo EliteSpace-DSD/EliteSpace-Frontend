@@ -21,7 +21,7 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-export const PacakgeDetails = () => {
+export const PackageDetails = () => {
   const { id } = useParams<{ id: string }>();
   const packageDetails = mockInformation.find((pkg) => pkg.id === Number(id));
 
@@ -39,12 +39,17 @@ export const PacakgeDetails = () => {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          position: "relative",
         }}
       >
-        <Button variant="outlined" onClick={handleBackClick}>
-          Back
-        </Button>
         <Stack sx={{ width: "100%", maxWidth: 400, mt: 2 }} spacing={2}>
+          <Button
+            variant="outlined"
+            onClick={handleBackClick}
+            sx={{ alignSelf: "flex-start" }}
+          >
+            Back
+          </Button>
           <Item>
             <Typography variant="h6">{packageDetails?.package}</Typography>
             <Typography>{packageDetails?.status}</Typography>
