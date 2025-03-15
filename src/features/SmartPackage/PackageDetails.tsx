@@ -14,7 +14,7 @@ interface mockInformation {
   package: string;
   deliveredHour: number;
   deliveredMin: number;
-  deliveredDate: Date;
+  deliveredDate: string;
 }
 
 let mockInformation = [
@@ -49,11 +49,16 @@ export const PackageDetails = () => {
     navigate("/smartpackage");
   };
 
-  const formatTime = (hour: number, min: number) => {
-    const ampm = hour >= 12 ? "PM" : "AM";
-    const formatHour = hour % 12 || 12;
-    const formatMin = min.toString().padStart(2, "0");
-    return `${formatHour}:${formatMin} ${ampm}`;
+  const convertToLocalTime = (hour: number, min: number) => {
+    const date = new Date();
+    date.setUTCHours(hour, min, 0, 0);
+
+    const localTime = date.toLocaleTimeString([], {
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true,
+    });
+    return localTime;
   };
 
   return (
@@ -79,15 +84,20 @@ export const PackageDetails = () => {
             <Typography>{packageDetails?.package}</Typography>
             <Typography>Delivered {packageDetails?.deliveredDate}</Typography>
             <Typography>
-              {formatTime(
+              {convertToLocalTime(
                 packageDetails?.deliveredHour,
                 packageDetails?.deliveredMin
               )}
             </Typography>
           </Item>
-          <Item>
+          <Item sx={{ backgroundColor: "#28a2a2" }}>
             <Typography variant="h6">Locker Access Code</Typography>
-            <Typography sx={{ fontWeight: "bold", fontSize: "1.5rem" }}>
+            <Typography
+              sx={{
+                fontWeight: "bold",
+                fontSize: "1.5rem",
+              }}
+            >
               {/* Code from backend goes here */} 12345
             </Typography>
           </Item>

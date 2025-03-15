@@ -7,16 +7,18 @@ interface mockInformation {
   package: string;
   deliveredHour: number;
   deliveredMin: number;
-  deliveredDate: Date;
+  deliveredDate: string;
+  status: "delivered" | "retrieved";
 }
 
 let mockInformation = [
   {
     id: 1,
     package: "Package #1",
+    deliveredDate: "2/12/25",
     deliveredHour: 16,
     deliveredMin: 16,
-    deliveredDate: "2/12/25",
+    stastatus: "delivered",
   },
   {
     id: 2,
@@ -24,8 +26,10 @@ let mockInformation = [
     deliveredDate: "2/12/25",
     deliveredHour: 10,
     deliveredMin: 30,
+    status: "retrieved",
   },
 ];
+
 const Item = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(1),
   textAlign: "center",
@@ -38,11 +42,16 @@ export const SmartPackage = () => {
     navigate(`/smartpackage/${id}`);
   };
 
-  const formatTime = (hour: number, min: number) => {
-    const ampm = hour >= 12 ? "PM" : "AM";
-    const formatHour = hour % 12 || 12;
-    const formatMin = min.toString().padStart(2, "0");
-    return `${formatHour}:${formatMin} ${ampm}`;
+  const convertToLocalTime = (hour: number, min: number) => {
+    const date = new Date();
+    date.setUTCHours(hour, min, 0, 0);
+
+    const localTime = date.toLocaleTimeString([], {
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true,
+    });
+    return localTime;
   };
 
   return (
@@ -56,15 +65,28 @@ export const SmartPackage = () => {
       }}
     >
       <Stack sx={{ width: "100%", maxWidth: 400, mt: 2 }} spacing={2}>
-        {mockInformation.map((item) => (
-          <Item key={item.id} onClick={() => handleItemClick(item.id)}>
-            <Typography>{item.package}</Typography>
-            <Typography> Delivered {item.deliveredDate}</Typography>
-            <Typography>
-              {formatTime(item.deliveredHour, item.deliveredMin)}
-            </Typography>
-          </Item>
-        ))}
+        {mockInformation.length > 0 ? (
+          mockInformation.map((item) => (
+            <Item
+              key={item.id}
+              onClick={() => handleItemClick(item.id)}
+              sx={{
+                opacity: item.status === "retrieved" ? 0.6 : 1, //  retrieved packages dimness
+                backgroundColor:
+                  item.status === "retrieved" ? "#f0f0f0" : "#fff", // Grey out retrieved items
+                color: item.status === "retrieved" ? "gray" : "black", // Change text color for retrieved items
+              }}
+            >
+              <Typography>{item.package}</Typography>
+              <Typography> Delivered {item.deliveredDate}</Typography>
+              <Typography>
+                {convertToLocalTime(item.deliveredHour, item.deliveredMin)}
+              </Typography>
+            </Item>
+          ))
+        ) : (
+          <Typography>No package has been delivered</Typography>
+        )}
       </Stack>
     </Container>
   );

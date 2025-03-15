@@ -7,7 +7,7 @@ import GuestParkingApproved from "../features/GuestParking/GuestParkingApproved"
 import { TenantSupport } from "../features/TenantSupport/TenantSupport";
 import PasswordReset from "../features/PasswordReset/PasswordReset";
 import { SmartPackage } from "../features/SmartPackage/SmartPackage";
-import { PacakgeDetails } from "../features/SmartPackage/PackageDetails";
+import { PackageDetails } from "../features/SmartPackage/PackageDetails";
 
 function AppRouter() {
   return (
@@ -21,7 +21,7 @@ function AppRouter() {
         <Route path="/tenant-support" element={<TenantSupport />} />
         <Route path="/password-reset" element={<PasswordReset />} />
         <Route path="/smartpackage" element={<SmartPackage />} />
-        <Route path="/smartpackage/:id" element={<PacakgeDetails />} />
+        <Route path="/smartpackage/:id" element={<PackageDetails />} />
       </Routes>
     </Router>
   );
