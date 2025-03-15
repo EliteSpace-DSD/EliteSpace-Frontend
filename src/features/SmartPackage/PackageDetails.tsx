@@ -85,8 +85,8 @@ export const PackageDetails = () => {
             <Typography>Delivered {packageDetails?.deliveredDate}</Typography>
             <Typography>
               {convertToLocalTime(
-                packageDetails?.deliveredHour,
-                packageDetails?.deliveredMin
+                packageDetails!.deliveredHour,
+                packageDetails!.deliveredMin
               )}
             </Typography>
           </Item>
