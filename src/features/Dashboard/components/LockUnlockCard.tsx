@@ -7,11 +7,7 @@ import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 
 interface CardProps {
-  height: HeightProps;
-}
-interface HeightProps {
-  xs: number;
-  md: number;
+  height: { xs: number; md: number }; 
 }
 
 const card = (
@@ -34,8 +30,8 @@ const card = (
 
 export default function OutlinedCard({ height }: CardProps) {
   return (
-    <Box sx={{ minWidth: 275, ...height, flex: 1 }}>
-      <Card variant="outlined" sx={{ height: "100%" }}>
+    <Box sx={{ minWidth: 275, height, flex: 1 }}>
+      <Card variant="outlined" sx={{ height: { ...height } }}>
         {card}
       </Card>
     </Box>

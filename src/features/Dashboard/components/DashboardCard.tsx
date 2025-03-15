@@ -5,12 +5,9 @@ import Typography from "@mui/material/Typography";
 
 interface CardProps {
   title: string;
-  height: HeightProps;
+  height: { xs: number; md: number };
 }
-interface HeightProps {
-  xs: number;
-  md: number;
-}
+
 export default function OutlinedCard({ title, height }: CardProps) {
   return (
     <Box sx={{ minWidth: 275, flex: 1 }}>
