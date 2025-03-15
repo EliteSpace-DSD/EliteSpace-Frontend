@@ -11,7 +11,7 @@ interface mockInformation {
   status: "delivered" | "retrieved";
 }
 
-let mockInformation = [
+const mockInformation = [
   {
     id: 1,
     package: "Package #1",
