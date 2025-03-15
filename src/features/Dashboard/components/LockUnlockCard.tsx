@@ -34,7 +34,7 @@ const card = (
 
 export default function OutlinedCard({ height }: CardProps) {
   return (
-    <Box sx={{ minWidth: 275, height, flex: 1 }}>
+    <Box sx={{ minWidth: 275, ...height, flex: 1 }}>
       <Card variant="outlined" sx={{ height: "100%" }}>
         {card}
       </Card>
