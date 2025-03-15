@@ -64,7 +64,7 @@ export const SmartPackage = () => {
         position: "relative",
       }}
     >
-      <Stack sx={{ width: "100%", maxWidth: 400, mt: 2 }} spacing={2}>
+      <Stack sx={{ width: "100%", maxWidth: 400, mt: 8.5 }} spacing={2}>
         {mockInformation.length > 0 ? (
           mockInformation.map((item) => (
             <Item
