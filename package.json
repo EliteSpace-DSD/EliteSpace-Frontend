@@ -8,9 +8,11 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test": "vitest"
+    "test": "vitest",
+    "clean": "rm -rf node_modules package-lock.json && npm install"
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
     "@mui/icons-material": "^6.4.5",
     "@mui/material": "^6.4.5",
     "@reduxjs/toolkit": "^2.5.1",
