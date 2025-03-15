@@ -1,13 +1,13 @@
 // Tenant Dashboard once the tenant is logged in
 import Stack from "@mui/material/Stack";
-import DashboardCard from "../../features/Dashboard/components/DashboardCard";
-import LockUnlock from "../../features/Dashboard/components/LockUnlockCard";
+import DashboardCard from "./components/DashboardCard";
+import LockUnlock from "./components/LockUnlockCard";
 import { Container } from "@mui/material";
 
 const height = { xs: 120, md: 150 };
 const otherCardHeight = { xs: 120, md: 300 };
 
-const HomePage = () => {
+const Dashboard = () => {
   return (
     <Container maxWidth="md">
       <Stack spacing={2}>
@@ -44,4 +44,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default Dashboard;
