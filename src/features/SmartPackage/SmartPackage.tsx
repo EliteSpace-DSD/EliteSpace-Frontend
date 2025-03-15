@@ -18,7 +18,7 @@ const mockInformation = [
     deliveredDate: "2/12/25",
     deliveredHour: 16,
     deliveredMin: 16,
-    stastatus: "delivered",
+    status: "delivered",
   },
   {
     id: 2,
