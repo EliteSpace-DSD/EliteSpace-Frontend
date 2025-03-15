@@ -1,18 +1,18 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router";
-import HomePage from "./routes/HomePage";
-import RegisterPage from "../features/auth/Register";
+import RegisterPage from "../features/Auth/Register";
 import Login from "../features/Login/Login";
 import GuestParking from "../features/GuestParking/GuestParking";
 import GuestParkingApproved from "../features/GuestParking/GuestParkingApproved";
 import { TenantSupport } from "../features/TenantSupport/TenantSupport";
 import PasswordReset from "../features/PasswordReset/PasswordReset";
+import Dashboard from "../features/Dashboard/Dashboard";
 
 
 function AppRouter() {
   return (
     <Router>
       <Routes>
-        <Route path='/' element={<HomePage />}/>
+        <Route path="/dashboard" element={<Dashboard />}/>
         <Route path="/register" element={<RegisterPage />}/>
         <Route path='/login' element={<Login />}/>
         <Route path='/parking' element={<GuestParking />}/>
