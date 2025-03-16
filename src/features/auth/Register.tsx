@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 import {
   Card,
   CardContent,
@@ -10,19 +10,18 @@ import {
   FormControlLabel,
   Checkbox,
   Link,
-} from "@mui/material";
-import { Link as Router } from "react-router";
+} from '@mui/material';
+import { Link as Router } from 'react-router';
 
 const RegisterPage = () => {
-
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    dob: "",
-    password: "",
-    confirmPassword: "",
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    dob: '',
+    password: '',
+    confirmPassword: '',
   });
 
   const [agreeToTerms, setAgreeToTerms] = useState(false);
@@ -30,9 +29,7 @@ const RegisterPage = () => {
   const [error, setError] = useState<string | null>(null);
   const [verificationSent, setVerificationSent] = useState(false);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
@@ -49,12 +46,12 @@ const RegisterPage = () => {
     }
 
     if (formData.password.length < 6) {
-      setError("Password must be at least 6 characters");
+      setError('Password must be at least 6 characters');
       return false;
     }
 
     if (!agreeToTerms) {
-      setError("You must agree to the terms and conditions");
+      setError('You must agree to the terms and conditions');
       return false;
     }
 
@@ -69,10 +66,10 @@ const RegisterPage = () => {
     setLoading(true);
 
     try {
-      const response = await fetch("http://localhost:3000/auth/register", {
-        method: "POST",
+      const response = await fetch('http://localhost:3000/auth/register', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           email: formData.email,
@@ -82,53 +79,48 @@ const RegisterPage = () => {
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.message || "Error creating account");
+        throw new Error(errorData.message || 'Error creating account');
       }
 
       setVerificationSent(true);
-
     } catch (error: unknown) {
-      setError(
-        (error as { message?: string }).message ||
-          "An error occurred during register"
-      );
+      setError((error as { message?: string }).message || 'An error occurred during register');
     }
   };
 
   return (
     <Box
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-      minHeight="100vh"
-      bgcolor="background.default"
+      display='flex'
+      justifyContent='center'
+      alignItems='center'
+      minHeight='100vh'
+      bgcolor='background.default'
     >
       <Card sx={{ width: 400, p: 3, boxShadow: 3 }}>
         <CardContent>
-          <Typography variant="h6" color="primary" align="center">
+          <Typography variant='h6' color='primary' align='center'>
             Logo
           </Typography>
-          <Typography variant="h4" align="center" mb={2}>
+          <Typography variant='h4' align='center' mb={2}>
             Create Account
           </Typography>
 
-          {error && <Alert severity="error">{error}</Alert>}
+          {error && <Alert severity='error'>{error}</Alert>}
           {verificationSent ? (
-            <Box textAlign="center">
-              <Alert severity="success">Verification email sent!</Alert>
+            <Box textAlign='center'>
+              <Alert severity='success'>Verification email sent!</Alert>
               <Typography mt={2}>
-                We've sent a verification link to{" "}
-                <strong>{formData.email}</strong>
+                We've sent a verification link to <strong>{formData.email}</strong>
               </Typography>
-              <Typography variant="body2" mt={1}>
+              <Typography variant='body2' mt={1}>
                 Please check your email and click the verification link.
               </Typography>
 
               <Button
                 component={Router}
-                to="/login"
-                variant="contained"
-                color="primary"
+                to='/login'
+                variant='contained'
+                color='primary'
                 fullWidth
                 sx={{ mt: 3 }}
               >
@@ -138,69 +130,69 @@ const RegisterPage = () => {
           ) : (
             <form onSubmit={handleRegister}>
               <TextField
-                label="First Name"
-                name="firstName"
+                label='First Name'
+                name='firstName'
                 fullWidth
-                margin="normal"
+                margin='normal'
                 value={formData.firstName}
                 onChange={handleChange}
                 required
               />
               <TextField
-                label="Last Name"
-                name="lastName"
+                label='Last Name'
+                name='lastName'
                 fullWidth
-                margin="normal"
+                margin='normal'
                 value={formData.lastName}
                 onChange={handleChange}
                 required
               />
               <TextField
-                label="Email"
-                name="email"
-                type="email"
+                label='Email'
+                name='email'
+                type='email'
                 fullWidth
-                margin="normal"
+                margin='normal'
                 value={formData.email}
                 onChange={handleChange}
                 required
               />
               <TextField
-                label="Phone"
-                name="phone"
-                type="tel"
+                label='Phone'
+                name='phone'
+                type='tel'
                 fullWidth
-                margin="normal"
+                margin='normal'
                 value={formData.phone}
                 onChange={handleChange}
                 required
               />
               <TextField
-                label=" "
-                name="dob"
-                type="date"
+                label=' '
+                name='dob'
+                type='date'
                 fullWidth
-                margin="normal"
+                margin='normal'
                 value={formData.dob}
                 onChange={handleChange}
               />
               <TextField
-                label="Password"
-                name="password"
-                type="password"
+                label='Password'
+                name='password'
+                type='password'
                 fullWidth
-                margin="normal"
+                margin='normal'
                 value={formData.password}
                 onChange={handleChange}
                 required
-                helperText="At least 6 characters"
+                helperText='At least 6 characters'
               />
               <TextField
-                label="Confirm Password"
-                name="confirmPassword"
-                type="password"
+                label='Confirm Password'
+                name='confirmPassword'
+                type='password'
                 fullWidth
-                margin="normal"
+                margin='normal'
                 value={formData.confirmPassword}
                 onChange={handleChange}
                 required
@@ -215,8 +207,8 @@ const RegisterPage = () => {
                 }
                 label={
                   <span>
-                    I agree to the{" "}
-                    <Link component="button" sx={{ color: "primary.main" }}>
+                    I agree to the{' '}
+                    <Link component='button' sx={{ color: 'primary.main' }}>
                       Terms & Conditions
                     </Link>
                   </span>
@@ -224,11 +216,11 @@ const RegisterPage = () => {
               />
 
               <Button
-                type="submit"
-                variant="contained"
-                color="primary"
+                type='submit'
+                variant='contained'
+                color='primary'
                 fullWidth
-                size="large"
+                size='large'
                 disabled={loading}
                 sx={{ mt: 2 }}
               >
@@ -237,14 +229,10 @@ const RegisterPage = () => {
             </form>
           )}
 
-          <Box mt={2} textAlign="center">
-            <Typography variant="body2">
-              Already have an account?{" "}
-              <Link
-                component={Router}
-                to="/login"
-                sx={{ color: "primary.main" }}
-              >
+          <Box mt={2} textAlign='center'>
+            <Typography variant='body2'>
+              Already have an account?{' '}
+              <Link component={Router} to='/login' sx={{ color: 'primary.main' }}>
                 Log in
               </Link>
             </Typography>

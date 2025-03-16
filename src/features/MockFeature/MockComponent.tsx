@@ -1,13 +1,13 @@
-import { useSelector, useDispatch } from "react-redux";
-import { type RootState } from "../../stores/store";
-import { addPerson } from "./mockSlice";
+import { useSelector, useDispatch } from 'react-redux';
+import { type RootState } from '../../stores/store';
+import { addPerson } from './mockSlice';
 
 export const MockComponent = () => {
   const people = useSelector((state: RootState) => state.mock.mockArray);
   const dispatch = useDispatch();
 
   const handleAddPerson = () => {
-    const newPerson = "Herbert";
+    const newPerson = 'Herbert';
     dispatch(addPerson(newPerson));
   };
 

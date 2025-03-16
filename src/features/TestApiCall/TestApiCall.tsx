@@ -1,4 +1,4 @@
-import { useGetAllUsersQuery } from "../Services/userSlice";
+import { useGetAllUsersQuery } from '../Services/userSlice';
 function TestApiCall() {
   const { data, error, isLoading } = useGetAllUsersQuery();
   if (isLoading) return <div>Loading...</div>;

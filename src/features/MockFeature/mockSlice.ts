@@ -1,15 +1,15 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 type MockState = {
   mockArray: string[];
 };
 
 const state: MockState = {
-  mockArray: ["Bob", "Eddie", "Felipe"],
+  mockArray: ['Bob', 'Eddie', 'Felipe'],
 };
 
 const mockSlice = createSlice({
-  name: "mock",
+  name: 'mock',
   initialState: state,
   reducers: {
     addPerson: (state, action: PayloadAction<string>) => {
