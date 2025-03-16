@@ -6,12 +6,14 @@ import GuestParkingApproved from "../features/GuestParking/GuestParkingApproved"
 import { TenantSupport } from "../features/TenantSupport/TenantSupport";
 import PasswordReset from "../features/PasswordReset/PasswordReset";
 import Dashboard from "../features/Dashboard/Dashboard";
+import LandingPage from "../features/Home/LandingPage";
 
 
 function AppRouter() {
   return (
     <Router>
       <Routes>
+        <Route path="/" element={<LandingPage />}/>
         <Route path="/dashboard" element={<Dashboard />}/>
         <Route path="/register" element={<RegisterPage />}/>
         <Route path='/login' element={<Login />}/>

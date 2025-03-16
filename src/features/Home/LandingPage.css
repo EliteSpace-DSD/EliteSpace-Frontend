@@ -1,0 +1,85 @@
+.landing-page {
+	position: relative;
+	background-color: black;
+	margin: 0;
+	min-height: 100vh;
+}
+
+.landing-page::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: linear-gradient(
+		to top,
+		rgba(91, 62, 150, 0.5),
+		rgba(91, 62, 150, 0)
+	);
+	pointer-events: none;
+}
+
+@keyframes twinkle {
+	0% {
+		opacity: 0;
+	}
+	50% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+
+.star {
+	position: absolute;
+	background-color: white;
+	border-radius: 50%;
+	animation: twinkle 3s infinite ease-in-out;
+}
+
+.moon {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    height: 200px;
+    background-color: #e6e1b2;
+    box-shadow: 0 0 20px rgba(240, 230, 140, 0.5);
+}
+
+@keyframes sway {
+	0% {
+		transform: translate(-50%, 0) rotate(0deg);
+	}
+	50% {
+		transform: translate(-50%, 10px) rotate(5deg);
+	}
+	100% {
+		transform: translate(-50%, 0) rotate(0deg);
+	}
+}
+
+.couch, .plant, .coffee-table {
+	position: absolute;
+	bottom: 60px;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 50%;
+	border-radius: 10px;
+	animation: sway 6s infinite ease-in-out;
+}
+
+.plant {
+	left: 20%;
+	bottom: 30px;
+	animation: sway 4s infinite ease-in-out
+}
+
+.coffee-table {
+	bottom: 30px;
+	left: 80%;
+	width: 25%;
+	animation: sway 4s infinite ease-in-out
+}
