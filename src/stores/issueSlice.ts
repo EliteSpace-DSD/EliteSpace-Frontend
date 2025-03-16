@@ -1,7 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  selectedIssue: "",
+  complaint: {
+    selectedIssue: "",
+    extraInfo: "",
+  },
 };
 
 const issueSlice = createSlice({
@@ -9,7 +12,10 @@ const issueSlice = createSlice({
   initialState,
   reducers: {
     setSelectedIssue: (state, action) => {
-      state.selectedIssue = action.payload;
+      state.complaint.selectedIssue = action.payload;
+    },
+    setExtraInfo: (state, action) => {
+      state.complaint.extraInfo = action.payload;
     },
   },
 });

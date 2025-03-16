@@ -12,41 +12,60 @@ import { Typography } from "@mui/material";
 import { setSelectedIssue } from "../../stores/issueSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../stores/store";
+import { FormEvent } from "react";
+import { useSendComplaintMutation } from "../Services/userSlice";
+import { useRef } from "react";
 
 const issues = [
   {
     category: "Noise Complaint",
     options: [
-      { value: "Option 1", label: "Loud Music from a neighboring unit" },
-      { value: "Option 2", label: "Late-night parties" },
+      {
+        value: "Option 1",
+        label: "Loud Music from a neighboring unit",
+        priority: "low",
+      },
+      { value: "Option 2", label: "Late-night parties", priority: "low" },
     ],
   },
   {
     category: "Maintenance Issue",
     options: [
-      { value: "Option 3", label: "Leaking Faucet" },
-      { value: "Option 4", label: "Broken Heater/AC" },
+      { value: "Option 3", label: "Leaking Faucet", priority: "high" },
+      { value: "Option 4", label: "Broken Heater/AC", priority: "high" },
     ],
   },
   {
     category: "Building/Common Area Issue",
     options: [
-      { value: "Option 5", label: "Trash not being collected" },
-      { value: "Option 6", label: "Elevator not working" },
+      {
+        value: "Option 5",
+        label: "Trash not being collected",
+        priority: "low",
+      },
+      { value: "Option 6", label: "Elevator not working", priority: "high" },
     ],
   },
   {
     category: "Neighbor Disputes",
     options: [
-      { value: "Option 7", label: "Unauthorized parking in my spot" },
-      { value: "Option 8", label: "Pets not on a leash" },
+      {
+        value: "Option 7",
+        label: "Unauthorized parking in my spot",
+        priority: "medium",
+      },
+      { value: "Option 8", label: "Pets not on a leash", priority: "low" },
     ],
   },
   {
     category: "Package/Delivery Issue",
     options: [
-      { value: "Option 9", label: "Package Stolen" },
-      { value: "Option 10", label: "Smart Locker Not Opening" },
+      { value: "Option 9", label: "Package Stolen", priority: "medium" },
+      {
+        value: "Option 10",
+        label: "Smart Locker Not Opening",
+        priority: "low",
+      },
     ],
   },
 ];
@@ -54,20 +73,30 @@ const issues = [
 export const TenantSupport = () => {
   const dispatch = useDispatch();
   const selectedIssue = useSelector(
-    (state: RootState) => state.issue.selectedIssue
+    (state: RootState) => state.issue.complaint.selectedIssue
   );
+  const extraDetailsRef = useRef<HTMLInputElement>(null);
 
+  const [sendComplaint, { isLoading }] = useSendComplaintMutation();
+
+  //Handlers
   const handleChange = (event: SelectChangeEvent<string>) => {
     dispatch(setSelectedIssue(event.target.value));
   };
 
+  const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
+    e.preventDefault();
+    const extraDetails = extraDetailsRef.current?.value || "";
+    const fullIssue = {
+      selectedIssue,
+      extraDetails,
+      img: "",
+      priority: "",
+    };
+    sendComplaint(fullIssue);
+  };
   return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        console.log("Form Submitted");
-      }}
-    >
+    <form onSubmit={handleSubmit}>
       <Stack maxWidth="md">
         <Typography variant="h3"> Tenant Support</Typography>
         <Stack sx={{ mt: 4 }} className="tenant-question-one">
@@ -109,6 +138,7 @@ export const TenantSupport = () => {
             multiline
             rows={4}
             variant="outlined"
+            inputRef={extraDetailsRef}
           />
         </Stack>
         <Stack>
