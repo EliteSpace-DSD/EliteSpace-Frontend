@@ -77,7 +77,7 @@ export const TenantSupport = () => {
   );
   const extraDetailsRef = useRef<HTMLInputElement>(null);
 
-  const [sendComplaint, { isLoading }] = useSendComplaintMutation();
+  const [sendComplaint] = useSendComplaintMutation();
 
   //Handlers
   const handleChange = (event: SelectChangeEvent<string>) => {
