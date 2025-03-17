@@ -1,14 +1,16 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
+
   complaint: {
     selectedIssue: "",
     extraInfo: "",
   },
+
 };
 
 const issueSlice = createSlice({
-  name: "issue",
+  name: 'issue',
   initialState,
   reducers: {
     setSelectedIssue: (state, action) => {

@@ -1,6 +1,6 @@
-import AppProvider from "./Provider";
-import AppRouter from "./Router";
-import AppBarResponsive from "./components/AppBarResponsive";
+import AppProvider from './Provider';
+import AppRouter from './Router';
+import AppBarResponsive from './components/AppBarResponsive';
 function App() {
   return (
     <AppProvider>

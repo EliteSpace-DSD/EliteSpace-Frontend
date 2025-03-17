@@ -1,3 +1,4 @@
+
 import TextField from "@mui/material/TextField";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
@@ -16,9 +17,10 @@ import { FormEvent } from "react";
 import { useSendComplaintMutation } from "../Services/userSlice";
 import { useRef } from "react";
 
+
 const issues = [
   {
-    category: "Noise Complaint",
+    category: 'Noise Complaint',
     options: [
       {
         value: "Option 1",
@@ -26,17 +28,19 @@ const issues = [
         priority: "low",
       },
       { value: "Option 2", label: "Late-night parties", priority: "low" },
+
     ],
   },
   {
-    category: "Maintenance Issue",
+    category: 'Maintenance Issue',
     options: [
       { value: "Option 3", label: "Leaking Faucet", priority: "high" },
       { value: "Option 4", label: "Broken Heater/AC", priority: "high" },
+
     ],
   },
   {
-    category: "Building/Common Area Issue",
+    category: 'Building/Common Area Issue',
     options: [
       {
         value: "Option 5",
@@ -47,7 +51,7 @@ const issues = [
     ],
   },
   {
-    category: "Neighbor Disputes",
+    category: 'Neighbor Disputes',
     options: [
       {
         value: "Option 7",
@@ -55,10 +59,11 @@ const issues = [
         priority: "medium",
       },
       { value: "Option 8", label: "Pets not on a leash", priority: "low" },
+
     ],
   },
   {
-    category: "Package/Delivery Issue",
+    category: 'Package/Delivery Issue',
     options: [
       { value: "Option 9", label: "Package Stolen", priority: "medium" },
       {
@@ -66,6 +71,7 @@ const issues = [
         label: "Smart Locker Not Opening",
         priority: "low",
       },
+
     ],
   },
 ];
@@ -76,6 +82,7 @@ export const TenantSupport = () => {
     (state: RootState) => state.issue.complaint.selectedIssue
   );
   const extraDetailsRef = useRef<HTMLInputElement>(null);
+
 
   const [sendComplaint] = useSendComplaintMutation();
 
@@ -101,22 +108,22 @@ export const TenantSupport = () => {
         <Typography variant="h3"> Tenant Support</Typography>
         <Stack sx={{ mt: 4 }} className="tenant-question-one">
           <Typography sx={{ m: 1 }} variant="h6">
+
             Which one of the following best describes the issue?
           </Typography>
         </Stack>
         <Stack>
           <FormControl sx={{ m: 1, width: 500 }} required>
             <InputLabel id="issue-label">Issue</InputLabel>
+
             <Select
-              labelId="issue-label"
+              labelId='issue-label'
               value={selectedIssue}
               onChange={handleChange}
-              input={<OutlinedInput label="Issue" />}
+              input={<OutlinedInput label='Issue' />}
             >
               {issues.flatMap((issue, index) => [
-                <ListSubheader key={`header-${index}`}>
-                  {issue.category}
-                </ListSubheader>,
+                <ListSubheader key={`header-${index}`}>{issue.category}</ListSubheader>,
                 ...issue.options.map((option) => (
                   <MenuItem key={option.value} value={option.label}>
                     {option.label}
@@ -126,10 +133,10 @@ export const TenantSupport = () => {
             </Select>
           </FormControl>
         </Stack>
-        <Stack sx={{ mt: 4 }} className="tenant-question-two">
-          <Typography sx={{ m: 1 }} variant="h6">
-            Kindly describe the issue below as descriptively as possible <br />{" "}
-            so we can route you to the proper channel in our team.
+        <Stack sx={{ mt: 4 }} className='tenant-question-two'>
+          <Typography sx={{ m: 1 }} variant='h6'>
+            Kindly describe the issue below as descriptively as possible <br /> so we can route you
+            to the proper channel in our team.
           </Typography>
         </Stack>
         <Stack sx={{ m: 1, width: 500 }}>
@@ -148,6 +155,7 @@ export const TenantSupport = () => {
         <Stack direction="row" spacing={2} justifyContent="center">
           <Button type="submit" variant="contained">
             Submit
+
           </Button>
         </Stack>
       </Stack>
