@@ -13,8 +13,20 @@ import {
 } from '@mui/material';
 import { Link } from 'react-router';
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
+import { useState } from 'react';
+import { useNavigate } from 'react-router';
+import { useDispatch, UseDispatch } from 'react-redux';
+import { setGuestName, setTimeLimit, setCurrentCode } from '../../stores/accessCodesSlice';
 
 const GuestAccess = () => {
+
+  const [nameInput, setNameInput] = useState("");
+  const [timeLimitInput, setTimeLimitInput] = useState("60");
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+ 
+
   return (
     <Container
       sx={{
