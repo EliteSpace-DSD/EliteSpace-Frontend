@@ -12,6 +12,7 @@ import {
 import { useLoginMutation } from './api/loginApi';
 import { useNavigate } from 'react-router';
 import { useState } from 'react';
+import { Link as RouteLink } from 'react-router';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -129,15 +130,19 @@ const Login = () => {
             >
               {isLoading ? 'Logging in...' : 'Log in'}
             </Button>
+
             <Button
+              component={RouteLink}
+              to='/register'
               variant='contained'
-              sx={{ width: '58%', bgcolor: '#1a3b5d', color: 'white', textTransform: 'none' }}
+              sx={{ width: '58%', bgcolor: '#1a3b5d', textTransform: 'none', color: 'white' }}
             >
               Register
             </Button>
           </Stack>
           <Link
-            href='#'
+            component={RouteLink}
+            to='/password-reset'
             underline='none'
             sx={{ width: '100%', textAlign: 'center', margin: '0 auto' }}
           >
