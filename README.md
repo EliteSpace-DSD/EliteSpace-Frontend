@@ -32,13 +32,17 @@ Make sure you have these installed:
 Your app will run at http://localhost:5173/
 
 ## 🧪 Running Tests with Vitest
+
 We use Vitest for testing. Follow these steps to run tests in the project.
 ✅ Run All Tests
+
 ```
 npx vitest
 ```
+
 🎯 Run a Specific Test File
 To run a test for a specific component (e.g., Button.spec.tsx):
+
 ```
 npx vitest /components/Button.spec.tsx
 ```

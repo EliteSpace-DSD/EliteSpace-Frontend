@@ -1,10 +1,7 @@
 type Props = {
-    buttonLabel: string;
-}
+  buttonLabel: string;
+};
 
-export default function Button({buttonLabel}: Props) {
-    return (
-        <button>
-            {buttonLabel}
-        </button>)
+export default function Button({ buttonLabel }: Props) {
+  return <button>{buttonLabel}</button>;
 }

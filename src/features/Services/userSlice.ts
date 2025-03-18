@@ -1,4 +1,4 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 interface User {
   message: string;
 }
@@ -8,10 +8,10 @@ interface Complaint {
   img?: string;
 }
 export const userApi = createApi({
-  reducerPath: "userApi",
+  reducerPath: 'userApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:3000/",
-    credentials: "include",
+    baseUrl: 'http://localhost:3000/',
+    credentials: 'include',
   }),
 
   endpoints: (builder) => ({
@@ -23,7 +23,7 @@ export const userApi = createApi({
     sendComplaint: builder.mutation({
       query: (complaint: Complaint) => ({
         url: `/complaints/submit-complaint`,
-        method: "POST",
+        method: 'POST',
         body: complaint,
       }),
     }),
