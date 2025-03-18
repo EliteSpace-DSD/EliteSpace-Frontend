@@ -1,15 +1,15 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import Stack from "@mui/material/Stack";
-import Alert from "@mui/material/Alert";
-import Snackbar from "@mui/material/Snackbar";
-import LockIcon from "@mui/icons-material/Lock";
-import LockOpenIcon from "@mui/icons-material/LockOpen";
-import { useTheme } from "@mui/material/styles";
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Stack from '@mui/material/Stack';
+import Alert from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
+import LockIcon from '@mui/icons-material/Lock';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
+import { useTheme } from '@mui/material/styles';
 
 interface CardProps {
   height: HeightProps;
@@ -41,27 +41,23 @@ const LockUnlock = ({ height }: CardProps) => {
   const card = (
     <React.Fragment>
       <Typography
-        color={isLocked ? "secondary.main" : "warning.main"}
+        color={isLocked ? 'secondary.main' : 'warning.main'}
         sx={{
-          display: "flex",
-          alignItems: "center",
+          display: 'flex',
+          alignItems: 'center',
           fontWeight: theme.typography.h3.fontWeight,
           mb: 1,
         }}
       >
-        {isLocked ? (
-          <LockIcon sx={{ mr: 1 }} />
-        ) : (
-          <LockOpenIcon sx={{ mr: 1 }} />
-        )}
-        Front Door is {isLocked ? "Locked" : "Unlocked"}
+        {isLocked ? <LockIcon sx={{ mr: 1 }} /> : <LockOpenIcon sx={{ mr: 1 }} />}
+        Front Door is {isLocked ? 'Locked' : 'Unlocked'}
       </Typography>
 
-      <Stack direction="row">
+      <Stack direction='row'>
         <CardActions>
           <Button
-            size="small"
-            variant={isLocked ? "contained" : "outlined"}
+            size='small'
+            variant={isLocked ? 'contained' : 'outlined'}
             startIcon={<LockIcon />}
             onClick={handleLock}
             disabled={isLocked}
@@ -71,8 +67,8 @@ const LockUnlock = ({ height }: CardProps) => {
         </CardActions>
         <CardActions>
           <Button
-            size="small"
-            variant={isLocked ? "contained" : "outlined"}
+            size='small'
+            variant={isLocked ? 'contained' : 'outlined'}
             startIcon={<LockOpenIcon />}
             onClick={handleUnlock}
             disabled={!isLocked}
@@ -85,33 +81,26 @@ const LockUnlock = ({ height }: CardProps) => {
   );
 
   return (
-    <Box
-      sx={{ minWidth: 275, flex: 1, height: { xs: height.xs, md: height.md } }}
-    >
+    <Box sx={{ minWidth: 275, flex: 1, height: { xs: height.xs, md: height.md } }}>
       <Card
-        variant="outlined"
+        variant='outlined'
         sx={{
-          height: "100%",
+          height: '100%',
           p: 1,
-          borderColor: isLocked
-            ? theme.palette.secondary.main
-            : theme.palette.warning.main,
+          borderColor: isLocked ? theme.palette.secondary.main : theme.palette.warning.main,
           borderWidth: 1,
         }}
       >
         {card}
       </Card>
 
-      <Snackbar
-        open={showAlert}
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-      >
+      <Snackbar open={showAlert} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
         <Alert
-          severity="warning"
-          variant="filled"
+          severity='warning'
+          variant='filled'
           onClose={handleCloseAlert}
           action={
-            <Button color="inherit" size="small" onClick={handleLock}>
+            <Button color='inherit' size='small' onClick={handleLock}>
               Lock Now
             </Button>
           }
