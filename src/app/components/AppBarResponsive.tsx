@@ -10,6 +10,7 @@ import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
+import { Link } from 'react-router';
 
 const pages = [
   'Tenant Support',
@@ -140,7 +141,13 @@ function ResponsiveAppBar() {
             >
               {settings.map((setting) => (
                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography sx={{ textAlign: 'center' }}>{setting}</Typography>
+                  {setting === 'Dashboard' ? (
+                    <Link to='/' style={{ textDecoration: 'none', color: 'inherit' }}>
+                      <Typography sx={{ textAlign: 'center' }}>{setting}</Typography>
+                    </Link>
+                  ) : (
+                    <Typography sx={{ textAlign: 'center' }}>{setting}</Typography>
+                  )}
                 </MenuItem>
               ))}
             </Menu>
