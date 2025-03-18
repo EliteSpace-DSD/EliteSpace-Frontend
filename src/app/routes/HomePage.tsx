@@ -17,7 +17,7 @@ const HomePage = () => {
           sx={{ display: 'flex', justifyContent: 'center' }}
         >
           <LockUnlock height={height} />
-          <DashboardCard title='One Tap Reporting' height={height} />
+          <DashboardCard title='One Tap Reporting' height={height} path='/tenant-support' />
         </Stack>
 
         <Stack
@@ -25,16 +25,20 @@ const HomePage = () => {
           spacing={2}
           sx={{ display: 'flex', justifyContent: 'center' }}
         >
-          <DashboardCard title='Smart Package Locker' height={otherCardHeight} />
-          <DashboardCard title='Guest Access' height={otherCardHeight} />
+          <DashboardCard
+            title='Smart Package Locker'
+            height={otherCardHeight}
+            path='/smartpackage'
+          />
+          <DashboardCard title='Guest Access' height={otherCardHeight} path='/guestaccess' />
         </Stack>
         <Stack
           direction={{ xs: 'column', md: 'row' }}
           spacing={2}
           sx={{ display: 'flex', justifyContent: 'center' }}
         >
-          <DashboardCard title='Guest Parking' height={otherCardHeight} />
-          <DashboardCard title='Digital Lease' height={otherCardHeight} />
+          <DashboardCard title='Guest Parking' height={otherCardHeight} path='/parking' />
+          <DashboardCard title='Digital Lease' height={otherCardHeight} path='/digital-lease' />
         </Stack>
       </Stack>
     </Container>
