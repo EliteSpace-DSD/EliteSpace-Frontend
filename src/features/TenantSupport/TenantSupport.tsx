@@ -25,13 +25,17 @@ const issues = [
         label: "Loud Music from a neighboring unit",
         priority: "low",
       },
-      { value: "Option 2", label: "Late-night parties", priority: "low" },
+      {
+        value: "Option 2",
+        label: "Late-night parties on Weekdays",
+        priority: "med",
+      },
     ],
   },
   {
     category: "Maintenance Issue",
     options: [
-      { value: "Option 3", label: "Leaking Faucet", priority: "high" },
+      { value: "Option 3", label: "Leaking Faucet", priority: "med" },
       { value: "Option 4", label: "Broken Heater/AC", priority: "high" },
     ],
   },

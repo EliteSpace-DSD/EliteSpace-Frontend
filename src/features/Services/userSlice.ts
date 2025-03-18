@@ -9,10 +9,13 @@ interface Complaint {
 }
 export const userApi = createApi({
   reducerPath: "userApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3000/" }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: "http://localhost:3000/",
+    credentials: "include",
+  }),
 
   endpoints: (builder) => ({
-    // Define the shape of the data returned by this endpoint
+    // Remove
     getAllUsers: builder.query<User, void>({
       //Calls the endpoint at http://localhost:3000/api/ping
       query: () => `ping`,
