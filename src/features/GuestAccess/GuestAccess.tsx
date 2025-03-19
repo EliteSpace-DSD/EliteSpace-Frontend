@@ -11,10 +11,9 @@ import {
   Paper,
   Box,
 } from '@mui/material';
-// import { Link } from 'react-router';
+import { useNavigate } from 'react-router'; // Fixed import
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import { useState } from 'react';
-import { useNavigate } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { setGuestName, setTimeLimit, setCurrentCode } from '../../stores/accessCodesSlice';
 
@@ -123,62 +122,59 @@ const GuestAccess = () => {
           >
             Generate a temporary access key for your visitors
           </Typography>
-          
-          <InputLabel 
-            sx={{ 
-              width: "100%", 
-              marginBottom: "10px" 
-            }}
-          >
-            Guest Name
-          </InputLabel>
-          <TextField
-            sx={{
-              width: "100%",
-              marginBottom: "20px",
-            }}
-          />
-          
-          <InputLabel 
-            sx={{ 
-              width: "100%", 
-              marginBottom: "10px" 
-            }}
-          >
-            Time Limit
-          </InputLabel>
-          <FormControl 
-            sx={{ 
-              width: "100%", 
-              marginBottom: "20px" 
-            }}
-          >
-                <Select defaultValue="1">
-                  <MenuItem value="1">60 minutes</MenuItem>
-                  <MenuItem value="2">2 hours</MenuItem>
-                  <MenuItem value="4">4 hours</MenuItem>
-                  <MenuItem value="8">8 hours</MenuItem>
-                  <MenuItem value="24">24 hours (1 day)</MenuItem>
-                  <MenuItem value="48">48 hours (2 days)</MenuItem>
-                  <MenuItem value="168">1 week</MenuItem>
-                </Select>
-              </FormControl>
-          <Link
-            to="/guestaccess/key"
-            style={{
-              textDecoration: 'none',
-              width: '100%',
-              margin: '0 auto',
-              display: 'flex',
-              justifyContent: 'center',
-            }}
-          > */}
+
+          <form onSubmit={handleSubmit} style={{ width: '100%' }}>
+            <InputLabel
+              sx={{
+                width: '100%',
+                marginBottom: '10px',
+              }}
+            >
+              Guest Name
+            </InputLabel>
+            <TextField
+              sx={{
+                width: '100%',
+                marginBottom: '20px',
+              }}
+              value={nameInput}
+              onChange={(e) => setNameInput(e.target.value)}
+              required
+            />
+
+            <InputLabel
+              sx={{
+                width: '100%',
+                marginBottom: '10px',
+              }}
+            >
+              Time Limit
+            </InputLabel>
+            <FormControl
+              sx={{
+                width: '100%',
+                marginBottom: '20px',
+              }}
+            >
+              <Select value={timeLimitInput} onChange={(e) => setTimeLimitInput(e.target.value)}>
+                <MenuItem value='60'>60 minutes</MenuItem>
+                <MenuItem value='120'>2 hours</MenuItem>
+                <MenuItem value='240'>4 hours</MenuItem>
+                <MenuItem value='480'>8 hours</MenuItem>
+                <MenuItem value='1440'>24 hours (1 day)</MenuItem>
+                <MenuItem value='2880'>48 hours (2 days)</MenuItem>
+                <MenuItem value='10080'>1 week</MenuItem>
+              </Select>
+            </FormControl>
+
             <Button
+              type='submit'
               variant='contained'
               sx={{
-                width: "50%",
-                height: "50px",
-                margin: "0 auto",
+                width: '50%',
+                height: '50px',
+                margin: '0 auto',
+                display: 'block',
               }}
             >
               Generate Key
