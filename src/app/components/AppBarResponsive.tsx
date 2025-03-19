@@ -10,15 +10,53 @@ import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
+import { Link } from 'react-router';
 
 const pages = [
-  'Tenant Support',
-  'Smart Package Locker',
-  'Guest Access',
-  'Guest Parking',
-  'Digital Lease',
+  {
+    name: 'Home',
+    path: '/',
+  },
+  {
+    name: 'Tenant Support',
+    path: '/tenant-support',
+  },
+  {
+    name: 'Smart Package Locker',
+    path: '/smartpackage',
+  },
+  {
+    name: 'Guest Access',
+    path: '/guestaccess',
+  },
+  {
+    name: 'Guest Parking',
+    path: '/parking',
+  },
+  {
+    name: 'Digital Lease',
+    path: '/digital-lease',
+  },
 ];
-const settings = ['Profile', 'Dashboard', 'Logout'];
+
+const settings = [
+  {
+    name: 'Dashboard',
+    path: '/',
+  },
+  {
+    name: 'Login',
+    path: '/login',
+  },
+  {
+    name: 'Register',
+    path: '/register',
+  },
+  {
+    name: 'Forgot Password?',
+    path: '/password-reset',
+  },
+];
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
@@ -89,8 +127,10 @@ function ResponsiveAppBar() {
               sx={{ display: { xs: 'block', md: 'none' } }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography sx={{ textAlign: 'center' }}>{page}</Typography>
+                <MenuItem key={page.name} onClick={handleCloseNavMenu}>
+                  <Link to={page.path} style={{ textDecoration: 'none' }}>
+                    <Typography sx={{ textAlign: 'center', color: '#000' }}>{page.name}</Typography>
+                  </Link>
                 </MenuItem>
               ))}
             </Menu>
@@ -139,8 +179,10 @@ function ResponsiveAppBar() {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography sx={{ textAlign: 'center' }}>{setting}</Typography>
+                <MenuItem key={setting.name} onClick={handleCloseUserMenu}>
+                  <Link to={setting.path} style={{ textDecoration: 'none', color: 'inherit' }}>
+                    <Typography sx={{ textAlign: 'center' }}>{setting.name}</Typography>
+                  </Link>
                 </MenuItem>
               ))}
             </Menu>

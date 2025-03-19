@@ -65,6 +65,9 @@ export const SmartPackage = () => {
       }}
     >
       <Stack sx={{ width: '100%', maxWidth: 400, mt: 8.5 }} spacing={2}>
+        <Typography variant='h5' sx={{ fontWeight: 'medium', textAlign: 'center' }}>
+          Smart Package Locker
+        </Typography>
         {mockInformation.length > 0 ? (
           mockInformation.map((item) => (
             <Item
