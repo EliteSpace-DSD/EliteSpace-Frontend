@@ -5,25 +5,22 @@ import { useNavigate } from 'react-router';
 interface mockInformation {
   id: number;
   package: string;
-  deliveredHour: number;
-  deliveredMin: number;
-  deliveredDate: string;
+  deliveredDatetime: string;
+  status: 'delivered' | 'retrieved';
 }
 
 const mockInformation = [
   {
     id: 1,
     package: 'Package #1',
-    deliveredHour: 16,
-    deliveredMin: 16,
-    deliveredDate: '2/12/25',
+    deliveredDateTime: '2025-03-18T20:19:55.754Z',
+    status: 'delivered',
   },
   {
     id: 2,
     package: 'Package #2',
-    deliveredDate: '2/12/25',
-    deliveredHour: 10,
-    deliveredMin: 30,
+    deliveredDateTime: '2025-03-19T01:06:20.040Z',
+    status: 'retrieved',
   },
 ];
 
@@ -42,16 +39,21 @@ export const PackageDetails = () => {
     navigate('/smartpackage');
   };
 
-  const convertToLocalTime = (hour: number, min: number) => {
-    const date = new Date();
-    date.setUTCHours(hour, min, 0, 0);
+  const convertToLocalDateTime = (isoFormat: string) => {
+    const date = new Date(isoFormat);
+
+    const localDate = date.toLocaleDateString([], {
+      year: '2-digit',
+      month: '2-digit',
+      day: '2-digit',
+    });
 
     const localTime = date.toLocaleTimeString([], {
       hour: 'numeric',
       minute: '2-digit',
       hour12: true,
     });
-    return localTime;
+    return { localDate, localTime };
   };
 
   return (
@@ -71,9 +73,11 @@ export const PackageDetails = () => {
           </Button>
           <Item>
             <Typography>{packageDetails?.package}</Typography>
-            <Typography>Delivered {packageDetails?.deliveredDate}</Typography>
             <Typography>
-              {convertToLocalTime(packageDetails!.deliveredHour, packageDetails!.deliveredMin)}
+              Delivered {convertToLocalDateTime(packageDetails?.deliveredDateTime).localDate}
+            </Typography>
+            <Typography>
+              {convertToLocalDateTime(packageDetails?.deliveredDateTime).localTime}
             </Typography>
           </Item>
           <Item sx={{ backgroundColor: '#28a2a2' }}>

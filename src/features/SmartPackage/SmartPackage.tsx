@@ -80,7 +80,6 @@ export const SmartPackage = () => {
             >
               <Typography>{item.package}</Typography>
               <Typography>
-                {' '}
                 Delivered {convertToLocalDateTime(item.deliveredDateTime).localDate}
               </Typography>
               <Typography>{convertToLocalDateTime(item.deliveredDateTime).localTime}</Typography>
