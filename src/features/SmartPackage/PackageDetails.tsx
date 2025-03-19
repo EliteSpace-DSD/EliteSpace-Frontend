@@ -74,10 +74,10 @@ export const PackageDetails = () => {
           <Item>
             <Typography>{packageDetails?.package}</Typography>
             <Typography>
-              Delivered {convertToLocalDateTime(packageDetails?.deliveredDateTime).localDate}
+              Delivered {convertToLocalDateTime(packageDetails?.deliveredDateTime ?? '').localDate}
             </Typography>
             <Typography>
-              {convertToLocalDateTime(packageDetails?.deliveredDateTime).localTime}
+              {convertToLocalDateTime(packageDetails?.deliveredDateTime ?? '').localTime}
             </Typography>
           </Item>
           <Item sx={{ backgroundColor: '#28a2a2' }}>
