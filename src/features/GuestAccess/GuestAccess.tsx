@@ -11,7 +11,7 @@ import {
   Paper,
   Box,
 } from '@mui/material';
-import { useNavigate } from 'react-router'; // Fixed import
+import { useNavigate } from 'react-router';
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';

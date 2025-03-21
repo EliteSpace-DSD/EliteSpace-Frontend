@@ -25,7 +25,7 @@ const accessCodesSlice = createSlice({
       state.guestName = '';
       state.timeLimit = '';
     },
-    // update currentCode (null) state w/ generated one from API
+    // update currentCode (null) state w/ generated one from API. do we wanna name this something else? Do we want loading states?
     setCurrentCode: (state, action) => {
       state.currentCode = action.payload;
     },
