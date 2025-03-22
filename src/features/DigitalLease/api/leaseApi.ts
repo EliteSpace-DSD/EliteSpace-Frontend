@@ -28,13 +28,13 @@ export const leaseApi = createApi({
     endpoints: (builder) => ({
         getLease: builder.query<TenantLeaseData, void>({
             query: () => ({
-                url: 'leases/view',
+                url: '/leases/view',
                 method: 'GET',
             }),
         }),
         signLease: builder.mutation({
             query: ({ leaseId, signature }: signBodyParams) => ({
-                url: 'leases/sign',
+                url: '/leases/sign',
                 method: 'POST',
                 body: { leaseId, signature }
             }),
