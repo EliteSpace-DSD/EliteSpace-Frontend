@@ -1,8 +1,34 @@
 import { Container, Stack, Button, Typography, Paper, Box } from '@mui/material';
-import { Link } from 'react-router';
+import { Link, Navigate } from 'react-router';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useSelector } from 'react-redux';
+
+interface RootState {
+  accessCodes: {
+    currentCode: string | null;
+    guestName: string;
+    timeLimit: string;
+  };
+}
 
 const GuestAccessKey = () => {
+  const { currentCode, guestName, timeLimit } = useSelector(
+    (state: RootState) => state.accessCodes,
+  );
+  if (!currentCode) {
+    return <Navigate to='/guestaccess' />;
+  }
+
+  const convertTimeLimit = (minutes: string): string => {
+    if (minutes === '60') return '60 minutes';
+    if (minutes === '120') return '2 hours';
+    if (minutes === '240') return '4 hours';
+    if (minutes === '480') return '8 hours';
+    if (minutes === '1440') return '24 hours (1 day)';
+    if (minutes === '2880') return '48 hours (2 days)';
+    if (minutes === '10080') return '1 week';
+    return `${minutes} minutes`;
+  };
   return (
     <Container
       sx={{
@@ -70,7 +96,7 @@ const GuestAccessKey = () => {
                 color: 'primary.main',
               }}
             >
-              123456
+              {currentCode}
             </Typography>
           </Box>
 
@@ -80,11 +106,11 @@ const GuestAccessKey = () => {
               maxWidth: '80%',
             }}
           >
-            One time code for <strong>Mars Bars</strong>.
+            One time code for <strong>{guestName}</strong>.
             <br />
             Instructions: Enter in the Keypad.
             <br />
-            Expires after 60 minutes.
+            Expires after {convertTimeLimit(timeLimit)}.
           </Typography>
 
           <Link

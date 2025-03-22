@@ -6,12 +6,12 @@ import GuestParking from '../features/GuestParking/GuestParking';
 import GuestParkingApproved from '../features/GuestParking/GuestParkingApproved';
 import { TenantSupport } from '../features/TenantSupport/TenantSupport';
 import GuestAccess from '../features/GuestAccess/GuestAccess';
-import GuestAccessKey from '../features/GuestAccess/GuestKey';
 import PasswordReset from '../features/PasswordReset/PasswordReset';
 import { SmartPackage } from '../features/SmartPackage/SmartPackage';
 import { PackageDetails } from '../features/SmartPackage/PackageDetails';
 import ResponsiveAppBar from './components/AppBarResponsive';
 import ResetPassword from '../features/ResetPassword/ResetPassword';
+import GuestAccessKey from '../features/GuestAccess/GuestKey';
 
 function AppRouter() {
   return (

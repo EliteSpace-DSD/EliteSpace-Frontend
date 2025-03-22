@@ -42,31 +42,35 @@ const ResetPassword: React.FC = () => {
           width: 300,
         }}
       >
-        <Typography
-          variant="h5"
-          component="h2"
-          sx={{ marginBottom: 2, color: '#333' }}
-        >
+        <Typography variant='h5' component='h2' sx={{ marginBottom: 2, color: '#333' }}>
           Reset Password
         </Typography>
-        {error && <Alert severity="error" sx={{ marginBottom: 2 }}>{error}</Alert>}
-        {success && <Alert severity="success" sx={{ marginBottom: 2 }}>Password reset successfully!</Alert>}
+        {error && (
+          <Alert severity='error' sx={{ marginBottom: 2 }}>
+            {error}
+          </Alert>
+        )}
+        {success && (
+          <Alert severity='success' sx={{ marginBottom: 2 }}>
+            Password reset successfully!
+          </Alert>
+        )}
         <form onSubmit={handleSubmit}>
           <TextField
-            id="newPassword"
-            name="newPassword"
-            label="New Password"
-            type="password"
+            id='newPassword'
+            name='newPassword'
+            label='New Password'
+            type='password'
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
-            variant="outlined"
+            variant='outlined'
             fullWidth
             required
             sx={{ marginBottom: 2 }}
           />
           <Button
-            type="submit"
-            variant="contained"
+            type='submit'
+            variant='contained'
             fullWidth
             disabled={isLoading}
             sx={{

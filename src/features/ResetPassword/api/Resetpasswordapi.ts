@@ -17,5 +17,4 @@ export const resetPasswordApi = createApi({
   }),
 });
 
-
 export const { useUpdatePasswordMutation } = resetPasswordApi;

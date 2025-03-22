@@ -6,7 +6,7 @@ import { useResetPasswordMutation } from './api/passwordresetApi';
 const PasswordReset: React.FC = () => {
   const [email, setEmail] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
- 
+
   const [resetPassword, { isLoading, isError, isSuccess }] = useResetPasswordMutation();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -17,7 +17,6 @@ const PasswordReset: React.FC = () => {
     setError(null);
     try {
       await resetPassword(email).unwrap();
-      
     } catch (error: any) {
       setError(error.data?.message || 'An error occurred');
     }
