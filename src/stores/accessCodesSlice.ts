@@ -29,4 +29,5 @@ const accessCodesSlice = createSlice({
 
 export const { setGuestName, setTimeLimit, clearAccessCode, setCurrentCode } =
   accessCodesSlice.actions;
+export const accessCodesReducer = accessCodesSlice.reducer;
 export default accessCodesSlice.reducer;
