@@ -1,34 +1,14 @@
 import { Paper, Stack, Container, Typography } from '@mui/material/';
 import { styled } from '@mui/material/styles';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 
-interface mockInformation {
+interface PackageInfo {
   id: number;
   package: string;
-  deliveredHour: number;
-  deliveredMin: number;
-  deliveredDate: string;
+  deliveredDateTime: string;
   status: 'delivered' | 'retrieved';
 }
-
-const mockInformation = [
-  {
-    id: 1,
-    package: 'Package #1',
-    deliveredDate: '2/12/25',
-    deliveredHour: 16,
-    deliveredMin: 16,
-    status: 'delivered',
-  },
-  {
-    id: 2,
-    package: 'Package #2',
-    deliveredDate: '2/12/25',
-    deliveredHour: 10,
-    deliveredMin: 30,
-    status: 'retrieved',
-  },
-];
 
 const Item = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(1),
@@ -36,22 +16,50 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export const SmartPackage = () => {
+  const [packages, setPackages] = useState<PackageInfo[]>([]);
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchPackages = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/smartpackage', {
+          method: 'GET',
+          credentials: 'include', // Important: This allows cookies to be sent
+        });
+        if (!response.ok) {
+          throw new Error('Failed to fetch packages');
+        }
+        const data = await response.json();
+        setPackages(data);
+      } catch (error: any) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchPackages();
+  }, []);
 
   const handleItemClick = (id: number) => {
     navigate(`/smartpackage/${id}`);
   };
 
-  const convertToLocalTime = (hour: number, min: number) => {
-    const date = new Date();
-    date.setUTCHours(hour, min, 0, 0);
+  const convertToLocalDateTime = (isoFormat: string) => {
+    const date = new Date(isoFormat);
 
+    const localDate = date.toLocaleDateString([], {
+      year: '2-digit',
+      month: '2-digit',
+      day: '2-digit',
+    });
     const localTime = date.toLocaleTimeString([], {
       hour: 'numeric',
       minute: '2-digit',
       hour12: true,
     });
-    return localTime;
+    return { localDate, localTime };
   };
 
   return (
@@ -68,24 +76,36 @@ export const SmartPackage = () => {
         <Typography variant='h5' sx={{ fontWeight: 'medium', textAlign: 'center' }}>
           Smart Package Locker
         </Typography>
-        {mockInformation.length > 0 ? (
-          mockInformation.map((item) => (
+
+        {loading ? (
+          <Typography>Loading...</Typography>
+        ) : error ? (
+          <Typography color='error'>{error}</Typography>
+        ) : packages.length > 0 ? (
+          packages.map((item, index) => (
             <Item
               key={item.id}
               onClick={() => handleItemClick(item.id)}
               sx={{
-                opacity: item.status === 'retrieved' ? 0.6 : 1, //  retrieved packages dimness
-                backgroundColor: item.status === 'retrieved' ? '#f0f0f0' : '#fff', // Grey out retrieved items
-                color: item.status === 'retrieved' ? 'gray' : 'black', // Change text color for retrieved items
+                cursor: item.status === 'retrieved' ? 'not-allowed' : 'pointer',
+                opacity: item.status === 'retrieved' ? 0.6 : 1,
+                backgroundColor: item.status === 'retrieved' ? '#f0f0f0' : '#fff',
+                color: item.status === 'retrieved' ? 'gray' : 'black',
               }}
             >
-              <Typography>{item.package}</Typography>
-              <Typography> Delivered {item.deliveredDate}</Typography>
-              <Typography>{convertToLocalTime(item.deliveredHour, item.deliveredMin)}</Typography>
+              <Typography>
+                {item.package} Package #{index + 1}
+              </Typography>
+              <Typography>
+                Delivered {convertToLocalDateTime(item.deliveredDateTime ?? '').localDate}
+              </Typography>
+              <Typography>
+                {convertToLocalDateTime(item?.deliveredDateTime ?? '').localTime}
+              </Typography>
             </Item>
           ))
         ) : (
-          <Typography>No package has been delivered</Typography>
+          <Typography>No packages have been delivered</Typography>
         )}
       </Stack>
     </Container>

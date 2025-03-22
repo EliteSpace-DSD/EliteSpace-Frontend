@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router';
+import DigitalLease from './routes/DigitalLease';
 import HomePage from './routes/HomePage';
 import RegisterPage from '../features/auth/Register';
 import Login from '../features/Login/Login';
@@ -30,6 +31,7 @@ function AppRouter() {
         <Route path='/smartpackage' element={<SmartPackage />} />
         <Route path='/smartpackage/:id' element={<PackageDetails />} />
         <Route path='/update-password' element={<ResetPassword />}></Route>
+        <Route path='/digital-lease' element={<DigitalLease />}></Route>
       </Routes>
     </Router>
   );

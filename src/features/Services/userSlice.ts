@@ -7,17 +7,20 @@ interface Complaint {
   extraDetails?: string;
   img?: string;
 }
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 export const userApi = createApi({
   reducerPath: 'userApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:3000/',
+    baseUrl: API_BASE_URL,
     credentials: 'include',
   }),
 
   endpoints: (builder) => ({
     // Remove
     getAllUsers: builder.query<User, void>({
-      //Calls the endpoint at http://localhost:3000/api/ping
+      //Calls the endpoint at API_BASE_URL/api/ping
       query: () => `ping`,
     }),
     sendComplaint: builder.mutation({
