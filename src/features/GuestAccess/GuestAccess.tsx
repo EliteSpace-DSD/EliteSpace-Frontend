@@ -17,6 +17,8 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setGuestName, setTimeLimit, setCurrentCode } from '../../stores/accessCodesSlice';
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 const GuestAccess = () => {
   const [nameInput, setNameInput] = useState('');
   const [timeLimitInput, setTimeLimitInput] = useState('60');
@@ -34,7 +36,7 @@ const GuestAccess = () => {
     dispatch(setTimeLimit(timeLimitInput));
 
     try {
-      const response = await fetch('http://localhost:3000/accessCodes/generate', {
+      const response = await fetch(`${API_BASE_URL}/accessCodes/generate`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
