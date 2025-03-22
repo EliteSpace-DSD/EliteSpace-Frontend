@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react';
 import { Box, Button, TextField, Typography, Paper, Alert } from '@mui/material';
 import { useUpdatePasswordMutation } from './api/Resetpasswordapi';
