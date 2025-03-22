@@ -1,42 +1,27 @@
 import { useState } from 'react';
 import { Box, Card, CardContent, TextField, Button, Typography, Alert, Link } from '@mui/material';
 import { Link as RouterLink } from 'react-router';
+import { useResetPasswordMutation } from './api/passwordresetApi';
 
 const PasswordReset: React.FC = () => {
   const [email, setEmail] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<boolean>(false);
+ 
+  const [resetPassword, { isLoading, isError, isSuccess }] = useResetPasswordMutation();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
-    setSuccess(false);
-
     try {
-      const response = await fetch('__supabase reset functionality?', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Error sending password reset email');
-      }
-
-      setSuccess(true);
-    } catch (error: unknown) {
-      setError((error as { message?: string }).message || 'An error occurred');
+      await resetPassword(email).unwrap();
+      
+    } catch (error: any) {
+      setError(error.data?.message || 'An error occurred');
     }
   };
-
   return (
     <Box
       display='flex'
@@ -58,8 +43,8 @@ const PasswordReset: React.FC = () => {
             Reset Password
           </Typography>
 
-          {error && <Alert severity='error'>Supabase database stuffs comin soon</Alert>}
-          {success ? (
+          {isError && <Alert severity='error'>{error || 'Something went wrong'}</Alert>}
+          {isSuccess ? (
             <Alert severity='success'>Password reset email sent!</Alert>
           ) : (
             <form onSubmit={handleSubmit}>
@@ -79,8 +64,9 @@ const PasswordReset: React.FC = () => {
                 fullWidth
                 size='large'
                 style={{ backgroundColor: '#28a2a2' }}
+                disabled={isLoading}
               >
-                Send Reset Link
+                {isLoading ? 'Sending...' : 'Send Reset Link'}
               </Button>
             </form>
           )}
