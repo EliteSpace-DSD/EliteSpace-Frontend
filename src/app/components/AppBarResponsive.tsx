@@ -60,8 +60,13 @@ const settings = [
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+  const [hasUser, setUser] = React.useState<null | string>(null);
   const user = useSelector((state: RootState) => state.user.currentUser);
   const location = useLocation();
+
+  React.useEffect(() => {
+    setUser(hasUser);
+  }, [user]);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -105,46 +110,50 @@ function ResponsiveAppBar() {
             Elite Space
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-            <IconButton
-              size='large'
-              aria-label='account of current user'
-              aria-controls='menu-appbar'
-              aria-haspopup='true'
-              onClick={handleOpenNavMenu}
-              color='inherit'
-            >
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              id='menu-appbar'
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{ display: { xs: 'block', md: 'none' } }}
-            >
-              {pages
-                .filter((page) => {
-                  return location.pathname !== page.path;
-                })
-                .map((page) => (
-                  <MenuItem key={page.name} onClick={handleCloseNavMenu}>
-                    <Link to={page.path} style={{ textDecoration: 'none' }}>
-                      <Typography sx={{ textAlign: 'center', color: '#000' }}>
-                        {page.name}
-                      </Typography>
-                    </Link>
-                  </MenuItem>
-                ))}
-            </Menu>
+            {hasUser && (
+              <>
+                <IconButton
+                  size='large'
+                  aria-label='account of current user'
+                  aria-controls='menu-appbar'
+                  aria-haspopup='true'
+                  onClick={handleOpenNavMenu}
+                  color='inherit'
+                >
+                  <MenuIcon />
+                </IconButton>
+                <Menu
+                  id='menu-appbar'
+                  anchorEl={anchorElNav}
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'left',
+                  }}
+                  open={Boolean(anchorElNav)}
+                  onClose={handleCloseNavMenu}
+                  sx={{ display: { xs: 'block', md: 'none' } }}
+                >
+                  {pages
+                    .filter((page) => {
+                      return location.pathname !== page.path;
+                    })
+                    .map((page) => (
+                      <MenuItem key={page.name} onClick={handleCloseNavMenu}>
+                        <Link to={page.path} style={{ textDecoration: 'none' }}>
+                          <Typography sx={{ textAlign: 'center', color: '#000' }}>
+                            {page.name}
+                          </Typography>
+                        </Link>
+                      </MenuItem>
+                    ))}
+                </Menu>
+              </>
+            )}
           </Box>
           🚀
           <Typography
@@ -166,7 +175,7 @@ function ResponsiveAppBar() {
           </Typography>
           {/* Desktop */}
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}></Box>
-          {user && (
+          {hasUser && (
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title='Profile settings'>
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>

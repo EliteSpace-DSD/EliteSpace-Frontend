@@ -36,6 +36,8 @@ const Login = () => {
     try {
       const response = await login({ email, password }).unwrap();
       if (response.message === 'Signed in successfully') {
+        // TODO - add meaningful user data, not just email
+        dispatch(setUser(email));
         navigate('/dashboard');
       }
     } catch (error: unknown) {
