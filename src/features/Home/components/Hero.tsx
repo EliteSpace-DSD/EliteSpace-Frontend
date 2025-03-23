@@ -5,9 +5,13 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router';
 import './Hero.css';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../stores/store';
 
 export default function Hero() {
   const navigate = useNavigate();
+  const user = useSelector((state: RootState) => state.user.currentUser);
+
   return (
     <Box id='hero'>
       <Container
@@ -64,24 +68,27 @@ export default function Hero() {
             useFlexGap
             sx={{ justifyContent: 'center', pt: 2, width: { xs: '100%', sm: '350px' } }}
           >
-            <Button
-              variant='contained'
-              color='primary'
-              size='small'
-              sx={{ minWidth: 'fit-content', zIndex: 1 }}
-              onClick={() => navigate('/login')}
-            >
-              Login
-            </Button>
-            <Button
-              variant='contained'
-              color='primary'
-              size='small'
-              sx={{ minWidth: 'fit-content', zIndex: 1 }}
-              onClick={() => navigate('/dashboard')}
-            >
-              Go to Dashboard
-            </Button>
+            {user ? (
+              <Button
+                variant='contained'
+                color='primary'
+                size='small'
+                sx={{ minWidth: 'fit-content', zIndex: 1 }}
+                onClick={() => navigate('/dashboard')}
+              >
+                Go to Dashboard
+              </Button>
+            ) : (
+              <Button
+                variant='contained'
+                color='primary'
+                size='small'
+                sx={{ minWidth: 'fit-content', zIndex: 1 }}
+                onClick={() => navigate('/login')}
+              >
+                Login
+              </Button>
+            )}
           </Stack>
         </Stack>
       </Container>

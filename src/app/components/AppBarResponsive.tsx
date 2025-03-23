@@ -11,6 +11,9 @@ import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { Link } from 'react-router';
+import { RootState } from '../../stores/store';
+import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 
 const pages = [
   {
@@ -49,22 +52,21 @@ const settings = [
     path: '/dashboard',
   },
   {
-    name: 'Login',
-    path: '/login',
-  },
-  {
-    name: 'Register',
-    path: '/register',
+    name: 'Logout',
+    path: '/',
   },
 ];
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+  const user = useSelector((state: RootState) => state.user.currentUser);
+  const location = useLocation();
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };
+
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -73,7 +75,11 @@ function ResponsiveAppBar() {
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = () => {
+  const handleCloseUserMenu = (e: React.MouseEvent): void => {
+    const target = (e.target as HTMLElement)?.innerHTML;
+    if (target === 'Logout') {
+      // TODO: Implement logout server side/clear token
+    }
     setAnchorElUser(null);
   };
 
@@ -86,7 +92,6 @@ function ResponsiveAppBar() {
             variant='h6'
             noWrap
             component='a'
-            href='/'
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
@@ -126,13 +131,19 @@ function ResponsiveAppBar() {
               onClose={handleCloseNavMenu}
               sx={{ display: { xs: 'block', md: 'none' } }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page.name} onClick={handleCloseNavMenu}>
-                  <Link to={page.path} style={{ textDecoration: 'none' }}>
-                    <Typography sx={{ textAlign: 'center', color: '#000' }}>{page.name}</Typography>
-                  </Link>
-                </MenuItem>
-              ))}
+              {pages
+                .filter((page) => {
+                  return location.pathname !== page.path;
+                })
+                .map((page) => (
+                  <MenuItem key={page.name} onClick={handleCloseNavMenu}>
+                    <Link to={page.path} style={{ textDecoration: 'none' }}>
+                      <Typography sx={{ textAlign: 'center', color: '#000' }}>
+                        {page.name}
+                      </Typography>
+                    </Link>
+                  </MenuItem>
+                ))}
             </Menu>
           </Box>
           🚀
@@ -140,7 +151,6 @@ function ResponsiveAppBar() {
             variant='h5'
             noWrap
             component='a'
-            href='/'
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
@@ -156,37 +166,43 @@ function ResponsiveAppBar() {
           </Typography>
           {/* Desktop */}
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}></Box>
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title='Open settings'>
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt='Remy Sharp' src='/static/images/avatar/2.jpg' />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: '45px' }}
-              id='menu-appbar'
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting.name} onClick={handleCloseUserMenu}>
-                  <Link to={setting.path} style={{ textDecoration: 'none', color: 'inherit' }}>
-                    <Typography sx={{ textAlign: 'center' }}>{setting.name}</Typography>
-                  </Link>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
+          {user && (
+            <Box sx={{ flexGrow: 0 }}>
+              <Tooltip title='Profile settings'>
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  <Avatar alt='Tenant' src='/static/images/avatar/2.jpg' />
+                </IconButton>
+              </Tooltip>
+              <Menu
+                sx={{ mt: '45px' }}
+                id='menu-appbar'
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+              >
+                {settings
+                  .filter((setting) => {
+                    return location.pathname !== setting.path;
+                  })
+                  .map((setting) => (
+                    <MenuItem key={setting.name} onClick={handleCloseUserMenu}>
+                      <Link to={setting.path} style={{ textDecoration: 'none', color: 'inherit' }}>
+                        <Typography sx={{ textAlign: 'center' }}>{setting.name}</Typography>
+                      </Link>
+                    </MenuItem>
+                  ))}
+              </Menu>
+            </Box>
+          )}
         </Toolbar>
       </Container>
     </AppBar>

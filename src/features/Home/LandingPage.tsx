@@ -7,7 +7,7 @@ import CoffeeTableImage from '../../assets/coffeeTable.png';
 import Hero from './components/Hero';
 import './LandingPage.css';
 
-const LandingPage: React.FC = () => {
+const LandingPage = () => {
   const [stars, setStars] = useState<React.ReactNode[]>([]);
   const starFieldRef = useRef<HTMLDivElement>(null);
 
