@@ -176,7 +176,9 @@ export const TenantSupport = () => {
               <Input type='file' inputProps={{ accept: 'image/*' }} disableUnderline={true} />
             </Stack>
             <Stack direction='row' spacing={2} justifyContent='center'>
-              <Button variant='contained'>Submit</Button>
+              <Button type='submit' variant='contained'>
+                Submit
+              </Button>
               <Button onClick={handleCancelButton} variant='outlined' color='error'>
                 Cancel
               </Button>
