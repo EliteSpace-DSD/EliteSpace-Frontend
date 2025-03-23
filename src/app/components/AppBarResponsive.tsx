@@ -60,13 +60,8 @@ const settings = [
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
-  const [hasUser, setUser] = React.useState<null | string>(null);
   const user = useSelector((state: RootState) => state.user.currentUser);
   const location = useLocation();
-
-  React.useEffect(() => {
-    setUser(hasUser);
-  }, [user]);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -110,7 +105,7 @@ function ResponsiveAppBar() {
             Elite Space
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-            {hasUser && (
+            {user && (
               <>
                 <IconButton
                   size='large'
@@ -175,7 +170,7 @@ function ResponsiveAppBar() {
           </Typography>
           {/* Desktop */}
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}></Box>
-          {hasUser && (
+          {user && (
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title='Profile settings'>
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
