@@ -179,11 +179,15 @@ function ResponsiveAppBar() {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting.name} onClick={handleCloseUserMenu}>
-                  <Link to={setting.path} style={{ textDecoration: 'none', color: 'inherit' }}>
+                <Link 
+                  key={setting.name} 
+                  to={setting.path} 
+                  style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}
+                >
+                  <MenuItem onClick={handleCloseUserMenu}>
                     <Typography sx={{ textAlign: 'center' }}>{setting.name}</Typography>
-                  </Link>
-                </MenuItem>
+                  </MenuItem>
+                </Link>
               ))}
             </Menu>
           </Box>
