@@ -74,6 +74,8 @@ const RegisterPage = () => {
         body: JSON.stringify({
           email: formData.email,
           password: formData.password,
+          phone: formData.phone,
+          dob: formData.dob,
         }),
       });
 
