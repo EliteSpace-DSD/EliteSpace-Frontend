@@ -26,8 +26,6 @@ const GuestAccess = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const tenantId = '0ac4c0c4-4b59-44a0-8060-58f4dac3c4f4';
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -44,7 +42,6 @@ const GuestAccess = () => {
         body: JSON.stringify({
           guestName: nameInput,
           timeLimit: timeLimitInput,
-          tenantId,
         }),
         credentials: 'include',
       });
