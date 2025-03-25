@@ -19,8 +19,6 @@ import { useEffect } from 'react';
 import { setFetching, setUser } from '../stores/userSlice';
 import { verifyUserData } from '../features/auth/utils';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-
 function AppRouter() {
   const dispatch = useDispatch();
 
