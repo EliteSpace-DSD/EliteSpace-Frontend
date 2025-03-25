@@ -14,7 +14,7 @@ const Dashboard = () => {
 
   return (
     <Container maxWidth='md'>
-      <h1>Welcome, {user?.firstName}!</h1>
+      {user && <h1>Welcome, {user.firstName}!</h1>}
       <Stack spacing={2}>
         <Stack
           direction={{ xs: 'column', md: 'row' }}
