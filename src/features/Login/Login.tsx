@@ -46,6 +46,9 @@ const Login = () => {
         const typedError = error as { status?: number; message: string };
         if (typedError.status === 401) {
           setErrorMessage('Invalid email or password. Please try again.');
+        }
+        if (typedError.status === 400) {
+          setErrorMessage('Check email and verify account to log in.');
         } else {
           setErrorMessage(typedError.message || 'Failed to retrieve session.');
         }
