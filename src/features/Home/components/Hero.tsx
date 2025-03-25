@@ -11,6 +11,7 @@ import { RootState } from '../../../stores/store';
 export default function Hero() {
   const navigate = useNavigate();
   const user = useSelector((state: RootState) => state.user.currentUser);
+  const fetchingUser = useSelector((state: RootState) => state.user.fetching);
 
   return (
     <Box id='hero'>
@@ -68,7 +69,7 @@ export default function Hero() {
             useFlexGap
             sx={{ justifyContent: 'center', pt: 2, width: { xs: '100%', sm: '350px' } }}
           >
-            {user ? (
+            {user && !fetchingUser ? (
               <Button
                 variant='contained'
                 color='primary'
@@ -78,16 +79,29 @@ export default function Hero() {
               >
                 Go to Dashboard
               </Button>
+            ) : fetchingUser ? (
+              <></>
             ) : (
-              <Button
-                variant='contained'
-                color='primary'
-                size='small'
-                sx={{ minWidth: 'fit-content', zIndex: 1 }}
-                onClick={() => navigate('/login')}
-              >
-                Login
-              </Button>
+              <>
+                <Button
+                  variant='contained'
+                  color='primary'
+                  size='small'
+                  sx={{ minWidth: 'fit-content', zIndex: 1 }}
+                  onClick={() => navigate('/login')}
+                >
+                  Login
+                </Button>
+                <Button
+                  variant='contained'
+                  color='primary'
+                  size='small'
+                  sx={{ minWidth: 'fit-content', zIndex: 1 }}
+                  onClick={() => navigate('/register')}
+                >
+                  Register
+                </Button>
+              </>
             )}
           </Stack>
         </Stack>

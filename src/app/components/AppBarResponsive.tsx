@@ -12,8 +12,9 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { Link } from 'react-router';
 import { RootState } from '../../stores/store';
-import { useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router';
+import { setUser } from '../../stores/userSlice';
 
 const pages = [
   {
@@ -57,12 +58,20 @@ const settings = [
   },
 ];
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 function ResponsiveAppBar() {
+  const dispatch = useDispatch();
+  const handleSignout = async () => {
+    await fetch(`${API_BASE_URL}/auth/signout`, {
+      method: 'POST',
+      credentials: 'include', // Important: This allows cookies to be sent
+    });
+  };
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
   const user = useSelector((state: RootState) => state.user.currentUser);
   const location = useLocation();
-
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -78,7 +87,8 @@ function ResponsiveAppBar() {
   const handleCloseUserMenu = (e: React.MouseEvent): void => {
     const target = (e.target as HTMLElement)?.innerHTML;
     if (target === 'Logout') {
-      // TODO: Implement logout server side/clear token
+      handleSignout();
+      dispatch(setUser(null));
     }
     setAnchorElUser(null);
   };
@@ -92,6 +102,7 @@ function ResponsiveAppBar() {
             variant='h6'
             noWrap
             component='a'
+            href='/'
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
@@ -155,6 +166,7 @@ function ResponsiveAppBar() {
             variant='h5'
             noWrap
             component='a'
+            href='/'
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
@@ -195,6 +207,9 @@ function ResponsiveAppBar() {
               >
                 {settings
                   .filter((setting) => {
+                    if (location.pathname === '/') {
+                      return setting;
+                    }
                     return location.pathname !== setting.path;
                   })
                   .map((setting) => (
