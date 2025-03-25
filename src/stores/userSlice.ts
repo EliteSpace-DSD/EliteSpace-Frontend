@@ -1,7 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+interface UserInfo {
+  firstName: string;
+  lastName: string;
+  email: string;
+  id: string;
+}
 export interface AuthUserState {
-  currentUser: string | null;
+  currentUser: UserInfo | null;
   fetching: boolean;
 }
 

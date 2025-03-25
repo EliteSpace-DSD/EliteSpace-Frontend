@@ -42,11 +42,7 @@ function AppRouter() {
 
     const user = verifyUser();
     user.then((userData) => {
-      if (userData) {
-        dispatch(setUser(userData));
-      } else {
-        dispatch(setUser(null));
-      }
+      dispatch(setUser(userData));
       dispatch(setFetching(false));
     });
   }, []);
