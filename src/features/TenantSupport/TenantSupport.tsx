@@ -20,6 +20,7 @@ import {
   Stack,
   SelectChangeEvent,
 } from '@mui/material';
+import { BackButton } from '../../app/components/BackButton';
 
 const issues = [
   {
@@ -109,83 +110,86 @@ export const TenantSupport = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <Container
-        sx={{
-          height: '600px',
-          marginTop: '60px',
-        }}
-      >
-        <Paper
+    <>
+      <BackButton />
+      <form onSubmit={handleSubmit}>
+        <Container
           sx={{
-            padding: '20px',
-            borderRadius: '10px',
+            height: '600px',
+            marginTop: '60px',
           }}
         >
-          <Stack
-            maxWidth='md'
+          <Paper
             sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              width: { xs: 'auto', sm: 500 },
-              height: '100%',
-              margin: '0 auto',
-              gap: '30px',
+              padding: '20px',
+              borderRadius: '10px',
             }}
           >
-            <Typography variant='h3'> Tenant Support</Typography>
-            <Stack spacing={3} sx={{ mt: 4, m: 1 }}>
-              <Stack>
-                <Typography sx={{ mt: 4 }} variant='h6'>
-                  Which one of the following best describes the issue?
-                </Typography>
-                <FormControl sx={{ width: 500 }} required>
-                  <InputLabel id='issue-label'>Issue</InputLabel>
-                  <Select
-                    labelId='issue-label'
-                    value={selectedIssue}
-                    onChange={handleChange}
-                    input={<OutlinedInput label='Issue' />}
-                  >
-                    {issues.flatMap((issue, index) => [
-                      <ListSubheader key={`header-${index}`}>{issue.category}</ListSubheader>,
-                      ...issue.options.map((option) => (
-                        <MenuItem key={option.value} value={option.label}>
-                          {option.label}
-                        </MenuItem>
-                      )),
-                    ])}
-                  </Select>
-                </FormControl>
+            <Stack
+              maxWidth='md'
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                width: { xs: 'auto', sm: 500 },
+                height: '100%',
+                margin: '0 auto',
+                gap: '30px',
+              }}
+            >
+              <Typography variant='h3'> Tenant Support</Typography>
+              <Stack spacing={3} sx={{ mt: 4, m: 1 }}>
+                <Stack>
+                  <Typography sx={{ mt: 4 }} variant='h6'>
+                    Which one of the following best describes the issue?
+                  </Typography>
+                  <FormControl sx={{ width: 500 }} required>
+                    <InputLabel id='issue-label'>Issue</InputLabel>
+                    <Select
+                      labelId='issue-label'
+                      value={selectedIssue}
+                      onChange={handleChange}
+                      input={<OutlinedInput label='Issue' />}
+                    >
+                      {issues.flatMap((issue, index) => [
+                        <ListSubheader key={`header-${index}`}>{issue.category}</ListSubheader>,
+                        ...issue.options.map((option) => (
+                          <MenuItem key={option.value} value={option.label}>
+                            {option.label}
+                          </MenuItem>
+                        )),
+                      ])}
+                    </Select>
+                  </FormControl>
+                </Stack>
+                <Stack spacing={3}>
+                  <Typography variant='h6'>
+                    Kindly describe the issue below as descriptively as possible so we can route you
+                    to the proper channel in our team.
+                  </Typography>
+                  <TextField
+                    id='issue-description'
+                    multiline
+                    rows={4}
+                    variant='outlined'
+                    inputRef={extraDetailsRef}
+                    sx={{ width: 500 }}
+                  />
+                </Stack>
+                <Input type='file' inputProps={{ accept: 'image/*' }} disableUnderline={true} />
               </Stack>
-              <Stack spacing={3}>
-                <Typography variant='h6'>
-                  Kindly describe the issue below as descriptively as possible so we can route you
-                  to the proper channel in our team.
-                </Typography>
-                <TextField
-                  id='issue-description'
-                  multiline
-                  rows={4}
-                  variant='outlined'
-                  inputRef={extraDetailsRef}
-                  sx={{ width: 500 }}
-                />
+              <Stack direction='row' spacing={2} justifyContent='center'>
+                <Button type='submit' variant='contained'>
+                  Submit
+                </Button>
+                <Button onClick={handleCancelButton} variant='outlined' color='error'>
+                  Cancel
+                </Button>
               </Stack>
-              <Input type='file' inputProps={{ accept: 'image/*' }} disableUnderline={true} />
             </Stack>
-            <Stack direction='row' spacing={2} justifyContent='center'>
-              <Button type='submit' variant='contained'>
-                Submit
-              </Button>
-              <Button onClick={handleCancelButton} variant='outlined' color='error'>
-                Cancel
-              </Button>
-            </Stack>
-          </Stack>
-        </Paper>
-      </Container>
-    </form>
+          </Paper>
+        </Container>
+      </form>
+    </>
   );
 };

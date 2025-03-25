@@ -2,6 +2,7 @@ import { Paper, Stack, Container, Typography } from '@mui/material/';
 import { styled } from '@mui/material/styles';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
+import { BackButton } from '../../app/components/BackButton';
 
 interface PackageInfo {
   id: number;
@@ -63,51 +64,54 @@ export const SmartPackage = () => {
   };
 
   return (
-    <Container
-      sx={{
-        mt: 5,
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        position: 'relative',
-      }}
-    >
-      <Stack sx={{ width: '100%', maxWidth: 400, mt: 8.5 }} spacing={2}>
-        <Typography variant='h5' sx={{ fontWeight: 'medium', textAlign: 'center' }}>
-          Smart Package Locker
-        </Typography>
+    <>
+      <BackButton />
+      <Container
+        sx={{
+          mt: 5,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          position: 'relative',
+        }}
+      >
+        <Stack sx={{ width: '100%', maxWidth: 400, mt: 8.5 }} spacing={2}>
+          <Typography variant='h5' sx={{ fontWeight: 'medium', textAlign: 'center' }}>
+            Smart Package Locker
+          </Typography>
 
-        {loading ? (
-          <Typography>Loading...</Typography>
-        ) : error ? (
-          <Typography color='error'>{error}</Typography>
-        ) : packages.length > 0 ? (
-          packages.map((item, index) => (
-            <Item
-              key={item.id}
-              onClick={() => handleItemClick(item.id)}
-              sx={{
-                cursor: item.status === 'retrieved' ? 'not-allowed' : 'pointer',
-                opacity: item.status === 'retrieved' ? 0.6 : 1,
-                backgroundColor: item.status === 'retrieved' ? '#f0f0f0' : '#fff',
-                color: item.status === 'retrieved' ? 'gray' : 'black',
-              }}
-            >
-              <Typography>
-                {item.package} Package #{index + 1}
-              </Typography>
-              <Typography>
-                Delivered {convertToLocalDateTime(item.deliveredDateTime ?? '').localDate}
-              </Typography>
-              <Typography>
-                {convertToLocalDateTime(item?.deliveredDateTime ?? '').localTime}
-              </Typography>
-            </Item>
-          ))
-        ) : (
-          <Typography>No packages have been delivered</Typography>
-        )}
-      </Stack>
-    </Container>
+          {loading ? (
+            <Typography>Loading...</Typography>
+          ) : error ? (
+            <Typography color='error'>{error}</Typography>
+          ) : packages.length > 0 ? (
+            packages.map((item, index) => (
+              <Item
+                key={item.id}
+                onClick={() => handleItemClick(item.id)}
+                sx={{
+                  cursor: item.status === 'retrieved' ? 'not-allowed' : 'pointer',
+                  opacity: item.status === 'retrieved' ? 0.6 : 1,
+                  backgroundColor: item.status === 'retrieved' ? '#f0f0f0' : '#fff',
+                  color: item.status === 'retrieved' ? 'gray' : 'black',
+                }}
+              >
+                <Typography>
+                  {item.package} Package #{index + 1}
+                </Typography>
+                <Typography>
+                  Delivered {convertToLocalDateTime(item.deliveredDateTime ?? '').localDate}
+                </Typography>
+                <Typography>
+                  {convertToLocalDateTime(item?.deliveredDateTime ?? '').localTime}
+                </Typography>
+              </Item>
+            ))
+          ) : (
+            <Typography>No packages have been delivered</Typography>
+          )}
+        </Stack>
+      </Container>
+    </>
   );
 };

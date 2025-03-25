@@ -8,3 +8,15 @@ body {
   min-width: 320px;
   height: 100vh;
 }
+
+.back-button {
+  left: 175px;
+  position: absolute;
+  top: 30px;
+}
+
+@media screen and (max-width: 768px) {
+  .back-button {
+    left: 20px;
+  }
+}

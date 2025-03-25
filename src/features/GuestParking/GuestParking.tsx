@@ -1,96 +1,99 @@
 import { Stack, InputLabel, TextField, Button, Typography, Container } from '@mui/material';
 import { Link } from 'react-router';
-
+import { BackButton } from '../../app/components/BackButton';
 const GuestParking = () => {
   return (
-    <Container
-      sx={{
-        height: '600px',
-        marginTop: '60px',
-      }}
-    >
-      <Stack
+    <>
+      <BackButton />
+      <Container
         sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          width: { xs: 'auto', sm: 500 },
-          height: '100%',
-          margin: '0 auto',
-          gap: '50px',
+          height: '600px',
+          marginTop: '60px',
         }}
       >
-        <Typography
-          sx={{
-            textAlign: 'center',
-            fontWeight: 500,
-            fontSize: '1.5rem',
-            lineHeight: '1.2',
-          }}
-        >
-          Guest Parking
-          <br />
-          Permit
-        </Typography>
         <Stack
           sx={{
-            width: '90%',
-            gap: '20px',
-          }}
-        >
-          <Stack
-            sx={{
-              width: '100%',
-              gap: '10px',
-            }}
-          >
-            <InputLabel>Name</InputLabel>
-            <TextField
-              sx={{
-                width: '90%',
-                margin: '0 auto',
-              }}
-            />
-          </Stack>
-          <Stack
-            sx={{
-              width: '100%',
-              gap: '10px',
-            }}
-          >
-            <InputLabel>License Plate</InputLabel>
-            <TextField
-              sx={{
-                width: '90%',
-                margin: '0 auto',
-              }}
-            />
-          </Stack>
-        </Stack>
-        <Link
-          to='/parking/approved'
-          style={{
-            textDecoration: 'none',
-            width: '100%',
-            margin: '0 auto',
             display: 'flex',
-            justifyContent: 'center',
+            flexDirection: 'column',
+            alignItems: 'center',
+            width: { xs: 'auto', sm: 500 },
+            height: '100%',
+            margin: '0 auto',
+            gap: '50px',
           }}
         >
-          <Button
-            variant='contained'
+          <Typography
             sx={{
-              width: '60%',
-              height: '50px',
-              margin: '0 auto',
-              marginTop: '10px',
+              textAlign: 'center',
+              fontWeight: 500,
+              fontSize: '1.5rem',
+              lineHeight: '1.2',
             }}
           >
-            Issue Permit
-          </Button>
-        </Link>
-      </Stack>
-    </Container>
+            Guest Parking
+            <br />
+            Permit
+          </Typography>
+          <Stack
+            sx={{
+              width: '90%',
+              gap: '20px',
+            }}
+          >
+            <Stack
+              sx={{
+                width: '100%',
+                gap: '10px',
+              }}
+            >
+              <InputLabel>Name</InputLabel>
+              <TextField
+                sx={{
+                  width: '90%',
+                  margin: '0 auto',
+                }}
+              />
+            </Stack>
+            <Stack
+              sx={{
+                width: '100%',
+                gap: '10px',
+              }}
+            >
+              <InputLabel>License Plate</InputLabel>
+              <TextField
+                sx={{
+                  width: '90%',
+                  margin: '0 auto',
+                }}
+              />
+            </Stack>
+          </Stack>
+          <Link
+            to='/parking/approved'
+            style={{
+              textDecoration: 'none',
+              width: '100%',
+              margin: '0 auto',
+              display: 'flex',
+              justifyContent: 'center',
+            }}
+          >
+            <Button
+              variant='contained'
+              sx={{
+                width: '60%',
+                height: '50px',
+                margin: '0 auto',
+                marginTop: '10px',
+              }}
+            >
+              Issue Permit
+            </Button>
+          </Link>
+        </Stack>
+      </Container>
+    </>
   );
 };
 
