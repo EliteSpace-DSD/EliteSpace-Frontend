@@ -17,6 +17,7 @@ import LandingPage from '../features/Home/LandingPage';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { setFetching, setUser } from '../stores/userSlice';
+import { verifyUserData } from '../features/auth/utils';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -24,27 +25,7 @@ function AppRouter() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(setFetching(true));
-    const verifyUser = async () => {
-      try {
-        const response = await fetch(`${API_BASE_URL}/auth/verify-user`, {
-          method: 'GET',
-          credentials: 'include',
-        });
-        if (response.status !== 200) {
-          return null;
-        }
-        return response.json();
-      } catch (error) {
-        return null;
-      }
-    };
-
-    const user = verifyUser();
-    user.then((userData) => {
-      dispatch(setUser(userData));
-      dispatch(setFetching(false));
-    });
+    verifyUserData(dispatch, setFetching, setUser);
   }, []);
 
   return (

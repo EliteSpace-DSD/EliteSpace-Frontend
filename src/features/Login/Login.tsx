@@ -13,8 +13,9 @@ import { useLoginMutation } from './api/loginApi';
 import { useNavigate } from 'react-router';
 import { useState } from 'react';
 import { Link as RouteLink } from 'react-router';
-import { setUser } from '../../stores/userSlice';
+import { setFetching, setUser } from '../../stores/userSlice';
 import { useDispatch } from 'react-redux';
+import { verifyUserData } from '../auth/utils';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -36,8 +37,7 @@ const Login = () => {
     try {
       const response = await login({ email, password }).unwrap();
       if (response.message === 'Signed in successfully') {
-        // TODO - add meaningful user data, not just email
-        dispatch(setUser(email));
+        verifyUserData(dispatch, setFetching, setUser);
         navigate('/dashboard');
       }
     } catch (error: unknown) {
