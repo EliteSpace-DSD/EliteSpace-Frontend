@@ -35,7 +35,7 @@ const RegisterPage = () => {
   const [error, setError] = useState<string | null>(null);
   const [verificationSent, setVerificationSent] = useState(false);
   const [passwordStrength, setPasswordStrength] = useState(0);
-  const [passwordFeedback, setPasswordFeedback] = useState<string[]>([]);
+  const [passwordTips, setPasswordTips] = useState<string[]>([]);
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -82,7 +82,7 @@ const RegisterPage = () => {
     }
 
     setPasswordStrength(strength);
-    setPasswordFeedback(feedback);
+    setPasswordTips(feedback);
   };
 
   const getStrengthColor = () => {
@@ -105,17 +105,17 @@ const RegisterPage = () => {
     }
 
     if (!/[A-Z]/.test(formData.password)) {
-      setError('Password must contain an uppercase letter');
+      setError('Must contain an uppercase letter');
       return false;
     }
 
     if (!/[a-z]/.test(formData.password)) {
-      setError('Password must contain a lowercase letter');
+      setError('Must contain a lowercase letter');
       return false;
     }
 
     if (!/[0-9!@#$%^&*]/.test(formData.password)) {
-      setError('Password must contain a number or special character');
+      setError('Must contain a number or special character');
       return false;
     }
 
@@ -275,9 +275,9 @@ const RegisterPage = () => {
                     color={getStrengthColor()}
                     sx={{ mt: 1, mb: 1 }}
                   />
-                  {passwordFeedback.length > 0 && (
+                  {passwordTips.length > 0 && (
                     <Box>
-                      {passwordFeedback.map((feedback, index) => (
+                      {passwordTips.map((feedback, index) => (
                         <Typography
                           key={index}
                           variant='caption'
