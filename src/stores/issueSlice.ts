@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   complaint: {
-    selectedIssue: '',
+    selectedIssue: { subCategory: '', category: '', priority: '' },
     extraInfo: '',
   },
 };

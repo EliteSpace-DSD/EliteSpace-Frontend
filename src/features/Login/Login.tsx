@@ -13,6 +13,10 @@ import { useLoginMutation } from './api/loginApi';
 import { useNavigate } from 'react-router';
 import { useState } from 'react';
 import { Link as RouteLink } from 'react-router';
+import { useDispatch } from 'react-redux';
+import { setTenantId } from '../../stores/tenantSlice';
+import { setFetching, setUser } from '../../stores/userSlice';
+import { verifyUserData } from '../auth/utils';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -21,6 +25,7 @@ const Login = () => {
 
   const [login, { isLoading }] = useLoginMutation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleLogin = async () => {
     setErrorMessage(null);
@@ -32,16 +37,21 @@ const Login = () => {
 
     try {
       const response = await login({ email, password }).unwrap();
+
       if (response.message === 'Signed in successfully') {
+        dispatch(setTenantId(response.tenantId)); // Dispatch tenantId to Redux
+        verifyUserData(dispatch, setFetching, setUser);
         navigate('/dashboard');
       }
     } catch (error: unknown) {
+      dispatch(setUser(null));
       if (error && typeof error === 'object' && 'status' in error) {
         const typedError = error as { status?: number; message: string };
         if (typedError.status === 401) {
           setErrorMessage('Invalid email or password. Please try again.');
-        } if (typedError.status === 400) {
-          setErrorMessage("Check email and verify account to log in.");
+        }
+        if (typedError.status === 400) {
+          setErrorMessage('Check email and verify account to log in.');
         } else {
           setErrorMessage(typedError.message || 'Failed to retrieve session.');
         }
@@ -116,6 +126,13 @@ const Login = () => {
               onChange={(e) => setPassword(e.target.value)}
               required
             />
+            <Link
+              component={RouteLink}
+              to='/password-reset'
+              sx={{ width: '100%', textAlign: 'center', margin: '0 auto' }}
+            >
+              Forgot your password?
+            </Link>
           </Stack>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, ml: 2 }}>
             <input type='checkbox' id='remember-me' />
@@ -132,24 +149,10 @@ const Login = () => {
             >
               {isLoading ? 'Logging in...' : 'Log in'}
             </Button>
-
-            <Button
-              component={RouteLink}
-              to='/register'
-              variant='contained'
-              sx={{ width: '58%', bgcolor: '#1a3b5d', textTransform: 'none', color: 'white' }}
-            >
-              Register
-            </Button>
+            <Link component={RouteLink} to='/register'>
+              Don't have an account? Register to get started
+            </Link>
           </Stack>
-          <Link
-            component={RouteLink}
-            to='/password-reset'
-            underline='none'
-            sx={{ width: '100%', textAlign: 'center', margin: '0 auto' }}
-          >
-            Forgot your password?
-          </Link>
         </Stack>
       </Stack>
     </Container>

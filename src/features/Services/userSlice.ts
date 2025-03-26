@@ -3,7 +3,11 @@ interface User {
   message: string;
 }
 interface Complaint {
-  selectedIssue: string;
+  selectedIssue: {
+    subCategory: string;
+    category: string;
+    priority: string;
+  };
   extraDetails?: string;
   img?: string;
 }

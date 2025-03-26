@@ -10,28 +10,112 @@ import Snackbar from '@mui/material/Snackbar';
 import LockIcon from '@mui/icons-material/Lock';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import { useTheme } from '@mui/material/styles';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../stores/store';
 
 interface CardProps {
   height: HeightProps;
+  tenantName?: string;
 }
 interface HeightProps {
   xs: number;
   md: number;
 }
 
-const LockUnlock = ({ height }: CardProps) => {
+const LockUnlockCard = ({ height, tenantName: propTenantName }: CardProps) => {
   const theme = useTheme();
-  const [isLocked, setIsLocked] = React.useState(true);
+  const tenantId = useSelector((state: RootState) => state.tenant.tenantId);
+  const [isLocked, setIsLocked] = React.useState<boolean>(true); // Default to locked
+  const [tenantName, setTenantName] = React.useState<string | null>(propTenantName || null);
   const [showAlert, setShowAlert] = React.useState(false);
+  const [error, setError] = React.useState<string | null>(null);
 
-  const handleLock = () => {
-    setIsLocked(true);
-    setShowAlert(false);
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
+  React.useEffect(() => {
+    if (!tenantId) {
+      // If no tenantId (user not logged in), default to locked and do nothing
+      setIsLocked(true);
+      return;
+    }
+
+    const fetchLockState = async () => {
+      try {
+        const response = await fetch(`${API_BASE_URL}/locks/lock-state/${tenantId}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch lock state');
+        }
+        const data = await response.json();
+        setIsLocked(data.isLocked);
+        if (!propTenantName) {
+          setTenantName(data.tenantName);
+        }
+      } catch (err) {
+        setError('Failed to fetch lock state. Please try again later.');
+      }
+    };
+
+    fetchLockState();
+  }, [tenantId, propTenantName, API_BASE_URL]);
+
+  const handleLock = async () => {
+    if (!tenantId) {
+      setError('You must be logged in to lock the door.');
+      return;
+    }
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/locks/lock-state`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          tenantId,
+          tenantName: tenantName,
+          isLocked: true,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to lock');
+      }
+
+      setIsLocked(true);
+      setShowAlert(false);
+    } catch (err) {
+      setError('Failed to lock. Please try again later.');
+    }
   };
 
-  const handleUnlock = () => {
-    setIsLocked(false);
-    setShowAlert(true);
+  const handleUnlock = async () => {
+    if (!tenantId) {
+      setError('You must be logged in to unlock the door.');
+      return;
+    }
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/locks/lock-state`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          tenantId,
+          tenantName: tenantName,
+          isLocked: false,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to unlock');
+      }
+
+      setIsLocked(false);
+      setShowAlert(true);
+    } catch (err) {
+      setError('Failed to unlock. Please try again later.');
+    }
   };
 
   const handleCloseAlert = () => {
@@ -108,8 +192,16 @@ const LockUnlock = ({ height }: CardProps) => {
           Your front door is currently unlocked. Click "Lock Now" to secure it.
         </Alert>
       </Snackbar>
+
+      {error && (
+        <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError(null)}>
+          <Alert severity='error' variant='filled' onClose={() => setError(null)}>
+            {error}
+          </Alert>
+        </Snackbar>
+      )}
     </Box>
   );
 };
 
-export default LockUnlock;
+export default LockUnlockCard;
