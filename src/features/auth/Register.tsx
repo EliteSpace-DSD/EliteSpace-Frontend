@@ -286,7 +286,7 @@ const RegisterPage = () => {
                           color='text.secondary'
                           display='block'
                         >
-                          {feedback}
+                          • {feedback}
                         </Typography>
                       ))}
                     </Box>
