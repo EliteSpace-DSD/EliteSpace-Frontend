@@ -35,7 +35,7 @@ const RegisterPage = () => {
   const [error, setError] = useState<string | null>(null);
   const [verificationSent, setVerificationSent] = useState(false);
   const [passwordStrength, setPasswordStrength] = useState(0);
-  const [passwordFeedback, setPasswordFeedback] = useState([]);
+  const [passwordFeedback, setPasswordFeedback] = useState<string[]>([]);
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -49,9 +49,9 @@ const RegisterPage = () => {
     }
   };
 
-  const checkPasswordStrength = (password) => {
+  const checkPasswordStrength = (password: string) => {
     let strength = 0;
-    const feedback = [];
+    const feedback: string[] = [];
 
     // Length check
     if (password.length >= 8) {
@@ -155,6 +155,8 @@ const RegisterPage = () => {
       setVerificationSent(true);
     } catch (error: unknown) {
       setError((error as { message?: string }).message || 'An error occurred during register');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -256,8 +258,39 @@ const RegisterPage = () => {
                 value={formData.password}
                 onChange={handleChange}
                 required
-                helperText='At least 6 characters'
+                helperText='At least 8 characters with uppercase, lowercase, and numbers'
               />
+              {/* strength bar */}
+              {formData.password && (
+                <Box sx={{ mt: 1, mb: 2 }}>
+                  <Box display='flex' alignItems='center' justifyContent='space-between'>
+                    <Typography variant='body2'>Password Strength:</Typography>
+                    <Typography variant='body2' color={getStrengthColor()}>
+                      {passwordStrength < 50 ? 'Weak' : passwordStrength < 75 ? 'Medium' : 'Strong'}
+                    </Typography>
+                  </Box>
+                  <LinearProgress
+                    variant='determinate'
+                    value={passwordStrength}
+                    color={getStrengthColor()}
+                    sx={{ mt: 1, mb: 1 }}
+                  />
+                  {passwordFeedback.length > 0 && (
+                    <Box>
+                      {passwordFeedback.map((feedback, index) => (
+                        <Typography
+                          key={index}
+                          variant='caption'
+                          color='text.secondary'
+                          display='block'
+                        >
+                          • {feedback}
+                        </Typography>
+                      ))}
+                    </Box>
+                  )}
+                </Box>
+              )}
               <TextField
                 label='Confirm Password'
                 name='confirmPassword'
@@ -267,6 +300,14 @@ const RegisterPage = () => {
                 value={formData.confirmPassword}
                 onChange={handleChange}
                 required
+                error={
+                  formData.confirmPassword !== '' && formData.password !== formData.confirmPassword
+                }
+                helperText={
+                  formData.confirmPassword !== '' && formData.password !== formData.confirmPassword
+                    ? "Passwords don't match"
+                    : ''
+                }
               />
 
               <FormControlLabel
