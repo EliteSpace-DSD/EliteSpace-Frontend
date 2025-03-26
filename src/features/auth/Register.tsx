@@ -10,6 +10,7 @@ import {
   FormControlLabel,
   Checkbox,
   Link,
+  LinearProgress,
 } from '@mui/material';
 import { Link as Router } from 'react-router';
 
@@ -28,6 +29,8 @@ const RegisterPage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [verificationSent, setVerificationSent] = useState(false);
+  const [passwordStrength, setPasswordStrength] = useState(0);
+  const [passwordFeedback, setPasswordFeedback] = useState([]);
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -36,6 +39,51 @@ const RegisterPage = () => {
       ...formData,
       [name]: value,
     });
+    if (name === 'password') {
+      checkPasswordStrength(value);
+    }
+  };
+
+  const checkPasswordStrength = (password) => {
+    let strength = 0;
+    const feedback = [];
+
+    // Length check
+    if (password.length >= 8) {
+      strength += 25;
+    } else {
+      feedback.push('At least 8 characters');
+    }
+
+    // Uppercase check
+    if (/[A-Z]/.test(password)) {
+      strength += 25;
+    } else {
+      feedback.push('Add uppercase letters');
+    }
+
+    // Lowercase check
+    if (/[a-z]/.test(password)) {
+      strength += 25;
+    } else {
+      feedback.push('Add lowercase letters');
+    }
+
+    // Number/special char check
+    if (/[0-9!@#$%^&*]/.test(password)) {
+      strength += 25;
+    } else {
+      feedback.push('Add numbers or special characters');
+    }
+
+    setPasswordStrength(strength);
+    setPasswordFeedback(feedback);
+  };
+
+  const getStrengthColor = () => {
+    if (passwordStrength < 50) return 'error';
+    if (passwordStrength < 75) return 'warning';
+    return 'success';
   };
 
   const validateForm = () => {
@@ -46,8 +94,23 @@ const RegisterPage = () => {
       return false;
     }
 
-    if (formData.password.length < 6) {
-      setError('Password must be at least 6 characters');
+    if (formData.password.length < 8) {
+      setError('Password must be at least 8 characters');
+      return false;
+    }
+
+    if (!/[A-Z]/.test(formData.password)) {
+      setError('Password must contain an uppercase letter');
+      return false;
+    }
+
+    if (!/[a-z]/.test(formData.password)) {
+      setError('Password must contain a lowercase letter');
+      return false;
+    }
+
+    if (!/[0-9!@#$%^&*]/.test(formData.password)) {
+      setError('Password must contain a number or special character');
       return false;
     }
 
