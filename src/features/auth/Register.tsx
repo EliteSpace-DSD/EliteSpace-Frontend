@@ -274,7 +274,18 @@ const RegisterPage = () => {
                     variant='determinate'
                     value={passwordStrength}
                     color={getStrengthColor()}
-                    sx={{ mt: 1, mb: 1, height: 8, borderRadius: 4 }}
+                    sx={{
+                      mt: 1,
+                      mb: 1,
+                      height: 8,
+                      borderRadius: 4,
+                      boxShadow:
+                        passwordStrength < 50
+                          ? '0 0 5px red'
+                          : passwordStrength < 75
+                            ? '0 0 5px orange'
+                            : '0 0 5px green',
+                    }}
                   />
 
                   {passwordTips.length > 0 && (
