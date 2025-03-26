@@ -269,12 +269,14 @@ const RegisterPage = () => {
                       {passwordStrength < 50 ? 'Weak' : passwordStrength < 75 ? 'Medium' : 'Strong'}
                     </Typography>
                   </Box>
+
                   <LinearProgress
                     variant='determinate'
                     value={passwordStrength}
                     color={getStrengthColor()}
-                    sx={{ mt: 1, mb: 1 }}
+                    sx={{ mt: 1, mb: 1, height: 8, borderRadius: 4 }}
                   />
+
                   {passwordTips.length > 0 && (
                     <Box>
                       {passwordTips.map((feedback, index) => (
@@ -284,7 +286,7 @@ const RegisterPage = () => {
                           color='text.secondary'
                           display='block'
                         >
-                          • {feedback}
+                          {feedback}
                         </Typography>
                       ))}
                     </Box>
@@ -303,6 +305,7 @@ const RegisterPage = () => {
                 error={
                   formData.confirmPassword !== '' && formData.password !== formData.confirmPassword
                 }
+                // warning
                 helperText={
                   formData.confirmPassword !== '' && formData.password !== formData.confirmPassword
                     ? "Passwords don't match"
