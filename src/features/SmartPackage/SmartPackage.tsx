@@ -1,6 +1,6 @@
 import { Paper, Stack, Container, Typography } from '@mui/material/';
 import { styled } from '@mui/material/styles';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router';
 import { BackButton } from '../../app/components/BackButton';
 
@@ -16,30 +16,56 @@ const Item = styled(Paper)(({ theme }) => ({
   textAlign: 'center',
 }));
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 export const SmartPackage = () => {
   const [packages, setPackages] = useState<PackageInfo[]>([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
+  const hasRun = useRef(false);
+
   useEffect(() => {
+    if (hasRun.current) return;
+    hasRun.current = true;
+
     const fetchPackages = async () => {
       try {
-        const response = await fetch('http://localhost:3000/smartpackage', {
-          method: 'GET',
-          credentials: 'include', // Important: This allows cookies to be sent
+        const triggerResponse = await fetch(`${API_BASE_URL}/demo/createPackages`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+          body: JSON.stringify({}),
         });
-        if (!response.ok) {
-          throw new Error('Failed to fetch packages');
+
+        if (triggerResponse.status === 204) {
+          console.log('Demo script completed – no content returned (204)');
+        } else {
+          const result = await triggerResponse.json();
+          console.log('Demo script result:', result);
         }
-        const data = await response.json();
+        const packageResponse = await fetch(`${API_BASE_URL}/smartpackage`, {
+          method: 'GET',
+          credentials: 'include',
+        });
+
+        if (!packageResponse.ok) {
+          throw new Error('You have no packages at this time. Please check back later');
+        }
+
+        const data = await packageResponse.json();
         setPackages(data);
+        console.log('Packages:', data);
       } catch (error: any) {
         setError(error.message);
       } finally {
         setLoading(false);
       }
     };
+
     fetchPackages();
   }, []);
 

@@ -12,6 +12,8 @@ interface PackageInfo {
   lockerCode: string;
 }
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 export const PackageDetails = () => {
   const { id } = useParams<{ id: string }>();
   const [loading, setLoading] = useState(true);
@@ -20,8 +22,21 @@ export const PackageDetails = () => {
   const [lockerCode, setLockerCode] = useState<string | null>(null);
   const navigate = useNavigate();
 
-  const handleBackClick = () => {
-    navigate('/smartpackage');
+  const handleBackClick = async () => {
+    try {
+      await fetch(`${API_BASE_URL}/demo/retrieveEarliestPackage`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({}),
+      });
+      navigate('/smartpackage');
+    } catch (err) {
+      console.error('Failed to update package status:', err);
+      navigate('/smartpackage');
+    }
   };
 
   const Item = styled(Paper)(({ theme }) => ({
@@ -69,7 +84,12 @@ export const PackageDetails = () => {
   return (
     <Container sx={{ mt: 5, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       <Stack sx={{ width: '100%', maxWidth: 400, mt: 2 }} spacing={2}>
-        <Button variant='outlined' onClick={handleBackClick} sx={{ alignSelf: 'flex-start' }}>
+        <Button
+          variant='contained'
+          onClick={handleBackClick}
+          color='primary'
+          sx={{ alignSelf: 'flex-start' }}
+        >
           Back
         </Button>
         {loading ? (
@@ -93,11 +113,11 @@ export const PackageDetails = () => {
                 {lockerCode ? lockerCode : 'Loading...'}
               </Typography>
             </Item>
-            <Typography>
+            <Typography color='white'>
               Instructions: Enter code into the keypad at the package locker. Step back and wait for
               the locker door to open.
             </Typography>
-            <Typography>Locker Access Code expires after 24 hours</Typography>
+            <Typography color='white'>Locker Access Code expires after 24 hours</Typography>
           </>
         ) : (
           <Typography>No package details available</Typography>
