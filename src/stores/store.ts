@@ -9,11 +9,14 @@ import { leaseApi } from '../features/DigitalLease/api/leaseApi';
 import { accessCodesReducer } from './accessCodesSlice';
 import tenantReducer from './tenantSlice';
 import userReducer from './userSlice';
+import parkingReducer from '../features/GuestParking/parkingSlice';
+import { guestParkingApi } from '../features/GuestParking/guestparkingApi';
 
 const store = configureStore({
   reducer: {
     mock: mockSlice,
     issue: issueReducer,
+    parking: parkingReducer,
     [userApi.reducerPath]: userApi.reducer,
     [loginApi.reducerPath]: loginApi.reducer,
     [passwordResetApi.reducerPath]: passwordResetApi.reducer,
@@ -22,6 +25,7 @@ const store = configureStore({
     accessCodes: accessCodesReducer,
     tenant: tenantReducer,
     user: userReducer,
+    [guestParkingApi.reducerPath]: guestParkingApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
@@ -30,6 +34,7 @@ const store = configureStore({
       passwordResetApi.middleware,
       resetPasswordApi.middleware,
       leaseApi.middleware,
+      guestParkingApi.middleware,
     ),
 });
 
