@@ -15,6 +15,7 @@ import { RootState } from '../../stores/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router';
 import { setUser } from '../../stores/userSlice';
+import Logo from '../../assets/logo.svg?react';
 
 const pages = [
   {
@@ -98,6 +99,7 @@ function ResponsiveAppBar() {
       <Container maxWidth='xl'>
         <Toolbar disableGutters>
           {/* Mobile */}
+          <Logo style={{ height: 40, width: 40, marginRight: 10 }} fill='#5b3e96' />
           <Typography
             variant='h6'
             noWrap
@@ -161,7 +163,6 @@ function ResponsiveAppBar() {
               </>
             )}
           </Box>
-          🚀
           <Typography
             variant='h5'
             noWrap

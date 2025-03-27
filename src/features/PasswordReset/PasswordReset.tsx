@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Box, Card, CardContent, TextField, Button, Typography, Alert, Link } from '@mui/material';
 import { Link as RouterLink } from 'react-router';
 import { useResetPasswordMutation } from './api/passwordresetApi';
+import Logo from '../../assets/logo.svg?react';
 
 const PasswordReset: React.FC = () => {
   const [email, setEmail] = useState<string>('');
@@ -32,9 +33,9 @@ const PasswordReset: React.FC = () => {
     >
       <Card sx={{ width: 400, p: 3, boxShadow: 3 }}>
         <CardContent>
-          <Typography variant='h6' align='center'>
-            Logo
-          </Typography>
+          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', m: 1 }}>
+            <Logo style={{ height: 150, width: 150 }} fill='#28a2a2' />
+          </Box>
           <Typography variant='h5' align='center' mb={2}>
             EliteSpace
           </Typography>
