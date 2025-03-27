@@ -46,7 +46,7 @@ export const PackageDetails = () => {
   useEffect(() => {
     const fetchLockerCode = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/smartpackage/${id}`, {
+        const response = await fetch(`${API_BASE_URL}/smartpackage/${id}`, {
           method: 'GET',
           credentials: 'include', // Important: This allows cookies to be sent
         });
