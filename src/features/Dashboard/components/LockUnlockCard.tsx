@@ -41,7 +41,9 @@ const LockUnlockCard = ({ height, tenantName: propTenantName }: CardProps) => {
 
     const fetchLockState = async () => {
       try {
-        const response = await fetch(`${API_BASE_URL}/locks/lock-state/${tenantId}`);
+        const response = await fetch(`${API_BASE_URL}/locks/lock-state/${tenantId}`, {
+          credentials: 'include', // Include credentials in the request
+        });
         if (!response.ok) {
           throw new Error('Failed to fetch lock state');
         }
@@ -67,6 +69,7 @@ const LockUnlockCard = ({ height, tenantName: propTenantName }: CardProps) => {
     try {
       const response = await fetch(`${API_BASE_URL}/locks/lock-state`, {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -97,6 +100,7 @@ const LockUnlockCard = ({ height, tenantName: propTenantName }: CardProps) => {
     try {
       const response = await fetch(`${API_BASE_URL}/locks/lock-state`, {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },
