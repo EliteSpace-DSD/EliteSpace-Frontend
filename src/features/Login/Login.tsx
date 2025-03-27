@@ -78,7 +78,6 @@ const Login = () => {
           padding: '20px',
           borderRadius: '10px',
           backgroundColor: '#f8f9fa',
-          opacity: 0.7,
         }}
       >
         <Stack
