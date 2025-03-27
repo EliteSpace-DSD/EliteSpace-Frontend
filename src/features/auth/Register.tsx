@@ -14,6 +14,7 @@ import {
   LinearProgress,
 } from '@mui/material';
 import { Link as Router } from 'react-router';
+import Logo from '../../assets/logo.svg?react';
 
 const RegisterPage = () => {
   const [formData, setFormData] = useState({
@@ -170,9 +171,9 @@ const RegisterPage = () => {
     >
       <Card sx={{ width: 400, p: 3, boxShadow: 3 }}>
         <CardContent>
-          <Typography variant='h6' color='primary' align='center'>
-            Logo
-          </Typography>
+          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', m: 1 }}>
+            <Logo style={{ height: 150, width: 150 }} fill='#28a2a2' />
+          </Box>
           <Typography variant='h4' align='center' mb={2}>
             Create Account
           </Typography>

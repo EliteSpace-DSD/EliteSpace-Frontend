@@ -17,6 +17,7 @@ import { useDispatch } from 'react-redux';
 import { setTenantId } from '../../stores/tenantSlice';
 import { setFetching, setUser } from '../../stores/userSlice';
 import { verifyUserData } from '../auth/utils';
+import Logo from '../../assets/logo.svg?react';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -85,7 +86,9 @@ const Login = () => {
           component='section'
           sx={{ display: 'flex', flexDirection: 'column', gap: 1, alignItems: 'center' }}
         >
-          <Box>Logo</Box>
+          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', m: 1 }}>
+            <Logo style={{ height: 150, width: 150 }} fill='#28a2a2' />
+          </Box>
           <Typography variant='h3' component='h1' fontWeight={600} sx={{ margin: 0 }}>
             EliteSpace
           </Typography>
