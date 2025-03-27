@@ -11,6 +11,7 @@ import {
   Checkbox,
   Link,
   Modal,
+  LinearProgress,
 } from '@mui/material';
 import { Link as Router } from 'react-router';
 import Logo from '../../assets/logo.svg?react';
@@ -34,6 +35,8 @@ const RegisterPage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [verificationSent, setVerificationSent] = useState(false);
+  const [passwordStrength, setPasswordStrength] = useState(0);
+  const [passwordTips, setPasswordTips] = useState<string[]>([]);
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -42,6 +45,51 @@ const RegisterPage = () => {
       ...formData,
       [name]: value,
     });
+    if (name === 'password') {
+      checkPasswordStrength(value);
+    }
+  };
+
+  const checkPasswordStrength = (password: string) => {
+    let strength = 0;
+    const feedback: string[] = [];
+
+    // Length check
+    if (password.length >= 8) {
+      strength += 25;
+    } else {
+      feedback.push('At least 8 characters');
+    }
+
+    // Uppercase check
+    if (/[A-Z]/.test(password)) {
+      strength += 25;
+    } else {
+      feedback.push('Add uppercase letters');
+    }
+
+    // Lowercase check
+    if (/[a-z]/.test(password)) {
+      strength += 25;
+    } else {
+      feedback.push('Add lowercase letters');
+    }
+
+    // Number/special char check
+    if (/[0-9!@#$%^&*]/.test(password)) {
+      strength += 25;
+    } else {
+      feedback.push('Add numbers or special characters');
+    }
+
+    setPasswordStrength(strength);
+    setPasswordTips(feedback);
+  };
+
+  const getStrengthColor = () => {
+    if (passwordStrength < 50) return 'error';
+    if (passwordStrength < 75) return 'warning';
+    return 'success';
   };
 
   const validateForm = () => {
@@ -52,8 +100,23 @@ const RegisterPage = () => {
       return false;
     }
 
-    if (formData.password.length < 6) {
-      setError('Password must be at least 6 characters');
+    if (formData.password.length < 8) {
+      setError('Password must be at least 8 characters');
+      return false;
+    }
+
+    if (!/[A-Z]/.test(formData.password)) {
+      setError('Must contain an uppercase letter');
+      return false;
+    }
+
+    if (!/[a-z]/.test(formData.password)) {
+      setError('Must contain a lowercase letter');
+      return false;
+    }
+
+    if (!/[0-9!@#$%^&*]/.test(formData.password)) {
+      setError('Must contain a number or special character');
       return false;
     }
 
@@ -82,6 +145,7 @@ const RegisterPage = () => {
           password: formData.password,
           phone: formData.phone,
           dob: formData.dob,
+          first_name: formData.firstName,
         }),
       });
 
@@ -93,6 +157,8 @@ const RegisterPage = () => {
       setVerificationSent(true);
     } catch (error: unknown) {
       setError((error as { message?: string }).message || 'An error occurred during register');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -194,8 +260,52 @@ const RegisterPage = () => {
                 value={formData.password}
                 onChange={handleChange}
                 required
-                helperText='At least 6 characters'
+                helperText='At least 8 characters with uppercase, lowercase, and numbers'
               />
+              {/* strength bar */}
+              {formData.password && (
+                <Box sx={{ mt: 1, mb: 2 }}>
+                  <Box display='flex' alignItems='center' justifyContent='space-between'>
+                    <Typography variant='body2'>Password Strength:</Typography>
+                    <Typography variant='body2' color={getStrengthColor()}>
+                      {passwordStrength < 50 ? 'Weak' : passwordStrength < 75 ? 'Medium' : 'Strong'}
+                    </Typography>
+                  </Box>
+
+                  <LinearProgress
+                    variant='determinate'
+                    value={passwordStrength}
+                    color={getStrengthColor()}
+                    sx={{
+                      mt: 1,
+                      mb: 1,
+                      height: 8,
+                      borderRadius: 4,
+                      boxShadow:
+                        passwordStrength < 50
+                          ? '0 0 5px red'
+                          : passwordStrength < 75
+                            ? '0 0 5px orange'
+                            : '0 0 5px green',
+                    }}
+                  />
+
+                  {passwordTips.length > 0 && (
+                    <Box>
+                      {passwordTips.map((feedback, index) => (
+                        <Typography
+                          key={index}
+                          variant='caption'
+                          color='text.secondary'
+                          display='block'
+                        >
+                          • {feedback}
+                        </Typography>
+                      ))}
+                    </Box>
+                  )}
+                </Box>
+              )}
               <TextField
                 label='Confirm Password'
                 name='confirmPassword'
@@ -205,6 +315,15 @@ const RegisterPage = () => {
                 value={formData.confirmPassword}
                 onChange={handleChange}
                 required
+                error={
+                  formData.confirmPassword !== '' && formData.password !== formData.confirmPassword
+                }
+                // warning
+                helperText={
+                  formData.confirmPassword !== '' && formData.password !== formData.confirmPassword
+                    ? "Passwords don't match"
+                    : ''
+                }
               />
 
               <FormControlLabel

@@ -21,7 +21,6 @@ import { useEffect } from 'react';
 import { setFetching, setUser } from '../stores/userSlice';
 import { verifyUserData } from '../features/auth/utils';
 
-
 function AppRouter() {
   const dispatch = useDispatch();
 
