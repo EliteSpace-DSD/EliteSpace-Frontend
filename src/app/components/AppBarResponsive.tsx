@@ -15,7 +15,7 @@ import { RootState } from '../../stores/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router';
 import { setUser } from '../../stores/userSlice';
-import Logo from '../../assets/logo.svg?react';
+import Logo from '../../assets/favicon-seasalt.svg?react';
 
 const pages = [
   {
