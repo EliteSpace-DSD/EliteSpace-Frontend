@@ -1,11 +1,10 @@
-import { FormEvent, useRef } from 'react';
+import { FormEvent, useRef, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { setSelectedIssue } from '../../stores/issueSlice';
 import { useSendComplaintMutation } from '../Services/userSlice';
 import { RootState } from '../../stores/store';
 import {
-  Input,
   Typography,
   TextField,
   OutlinedInput,
@@ -19,6 +18,7 @@ import {
   Button,
   Stack,
   SelectChangeEvent,
+  Input,
 } from '@mui/material';
 import { BackButton } from '../../app/components/BackButton';
 
@@ -94,14 +94,19 @@ export const TenantSupport = () => {
   const dispatch = useDispatch();
   const selectedIssue = useSelector((state: RootState) => state.issue.complaint.selectedIssue);
   const extraDetailsRef = useRef<HTMLInputElement>(null);
-  const [sendComplaint] = useSendComplaintMutation();
-  const issueMap = new Map<string, { category: string; priority: string }>();
-  //Loop through each issue, loop through each option in that issue and get the issue category and priority for each label
-  issues.forEach((issue) => {
-    issue.options.forEach((option) => {
-      issueMap.set(option.label, { category: issue.backendCategory, priority: option.priority });
+  const [sendComplaint, { isLoading }] = useSendComplaintMutation();
+  const navigate = useNavigate();
+
+  // Memoize issueMap to prevent recreation on every render
+  const issueMap = useMemo(() => {
+    const map = new Map<string, { category: string; priority: string }>();
+    issues.forEach((issue) => {
+      issue.options.forEach((option) => {
+        map.set(option.label, { category: issue.backendCategory, priority: option.priority });
+      });
     });
-  });
+    return map;
+  }, []);
 
   //Handlers
   const handleChange = (event: SelectChangeEvent<string>) => {
@@ -115,24 +120,32 @@ export const TenantSupport = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     const extraDetails = extraDetailsRef.current?.value || '';
+
+    if (!selectedIssue.subCategory) {
+      return;
+    }
+
     const fullIssue = {
       selectedIssue,
       extraDetails,
       img: '',
     };
-    const response = await sendComplaint(fullIssue);
 
-    if (response.data.statusCode === 200) {
-      alert('Complaint submitted successfully!');
-      // Clear the form and reset the selected issue
-      dispatch(setSelectedIssue({ subCategory: '', category: '', priority: '' }));
-      if (extraDetailsRef.current) {
-        extraDetailsRef.current.value = '';
+    try {
+      const response = await sendComplaint(fullIssue);
+
+      if (response.data?.statusCode === 200) {
+        // Clear the form and reset the selected issue
+        dispatch(setSelectedIssue({ subCategory: '', category: '', priority: '' }));
+        if (extraDetailsRef.current) {
+          extraDetailsRef.current.value = '';
+        }
+        navigate('/dashboard');
       }
+    } catch (error) {
+      console.error('Failed to submit complaint:', error);
     }
   };
-
-  const navigate = useNavigate();
 
   const handleCancelButton = () => {
     navigate('/dashboard');
@@ -210,10 +223,15 @@ export const TenantSupport = () => {
                 <Input type='file' inputProps={{ accept: 'image/*' }} disableUnderline={true} />
               </Stack>
               <Stack direction='row' spacing={2} justifyContent='center'>
-                <Button type='submit' variant='contained'>
-                  Submit
+                <Button type='submit' variant='contained' disabled={isLoading}>
+                  {isLoading ? 'Submitting...' : 'Submit'}
                 </Button>
-                <Button onClick={handleCancelButton} variant='outlined' color='error'>
+                <Button
+                  onClick={handleCancelButton}
+                  variant='outlined'
+                  color='error'
+                  disabled={isLoading}
+                >
                   Cancel
                 </Button>
               </Stack>

@@ -1,6 +1,6 @@
 import { Paper, Stack, Container, Typography } from '@mui/material/';
 import { styled } from '@mui/material/styles';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router';
 
 interface PackageInfo {
@@ -17,35 +17,35 @@ const Item = styled(Paper)(({ theme }) => ({
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
+const convertToLocalDateTime = (isoFormat: string) => {
+  const date = new Date(isoFormat);
+  const localDate = date.toLocaleDateString([], {
+    year: '2-digit',
+    month: '2-digit',
+    day: '2-digit',
+  });
+  const localTime = date.toLocaleTimeString([], {
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true,
+  });
+  return { localDate, localTime };
+};
+
 export const SmartPackage = () => {
   const [packages, setPackages] = useState<PackageInfo[]>([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  const hasRun = useRef(false);
-
   useEffect(() => {
-    if (hasRun.current) return;
-    hasRun.current = true;
-
     const fetchPackages = async () => {
       try {
-        const triggerResponse = await fetch(`${API_BASE_URL}/demo/createPackages`, {
+        // Initialize demo packages if needed
+        await fetch(`${API_BASE_URL}/demo/createPackages`, {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
           credentials: 'include',
-          body: JSON.stringify({}),
         });
-
-        if (triggerResponse.status === 204) {
-          console.log('Demo script completed – no content returned (204)');
-        } else {
-          const result = await triggerResponse.json();
-          console.log('Demo script result:', result);
-        }
         const packageResponse = await fetch(`${API_BASE_URL}/smartpackage`, {
           method: 'GET',
           credentials: 'include',
@@ -57,9 +57,8 @@ export const SmartPackage = () => {
 
         const data = await packageResponse.json();
         setPackages(data);
-        console.log('Packages:', data);
-      } catch (error: any) {
-        setError(error.message);
+      } catch (error: unknown) {
+        setError(error instanceof Error ? error.message : 'Failed to fetch packages');
       } finally {
         setLoading(false);
       }
@@ -72,21 +71,21 @@ export const SmartPackage = () => {
     navigate(`/smartpackage/${id}`);
   };
 
-  const convertToLocalDateTime = (isoFormat: string) => {
-    const date = new Date(isoFormat);
+  // Get item styles based on status
+  const getItemStyles = (status: PackageInfo['status']) => ({
+    cursor: status === 'retrieved' ? 'not-allowed' : 'pointer',
+    opacity: status === 'retrieved' ? 0.6 : 1,
+    backgroundColor: status === 'retrieved' ? '#f0f0f0' : '#fff',
+    color: status === 'retrieved' ? 'gray' : 'black',
+  });
 
-    const localDate = date.toLocaleDateString([], {
-      year: '2-digit',
-      month: '2-digit',
-      day: '2-digit',
-    });
-    const localTime = date.toLocaleTimeString([], {
-      hour: 'numeric',
-      minute: '2-digit',
-      hour12: true,
-    });
-    return { localDate, localTime };
-  };
+  // Memoize computed package data to avoid recalculating on every render
+  const packagesWithDates = useMemo(() => {
+    return packages.map((item) => ({
+      ...item,
+      ...convertToLocalDateTime(item.deliveredDateTime ?? ''),
+    }));
+  }, [packages]);
 
   return (
     <Container
@@ -130,26 +129,17 @@ export const SmartPackage = () => {
           ) : error ? (
             <Typography color='error'>{error}</Typography>
           ) : packages.length > 0 ? (
-            packages.map((item, index) => (
+            packagesWithDates.map((item, index) => (
               <Item
                 key={item.id}
                 onClick={() => handleItemClick(item.id)}
-                sx={{
-                  cursor: item.status === 'retrieved' ? 'not-allowed' : 'pointer',
-                  opacity: item.status === 'retrieved' ? 0.6 : 1,
-                  backgroundColor: item.status === 'retrieved' ? '#f0f0f0' : '#fff',
-                  color: item.status === 'retrieved' ? 'gray' : 'black',
-                }}
+                sx={getItemStyles(item.status)}
               >
                 <Typography>
                   {item.package} Package #{index + 1}
                 </Typography>
-                <Typography>
-                  Delivered {convertToLocalDateTime(item.deliveredDateTime ?? '').localDate}
-                </Typography>
-                <Typography>
-                  {convertToLocalDateTime(item?.deliveredDateTime ?? '').localTime}
-                </Typography>
+                <Typography>Delivered {item.localDate}</Typography>
+                <Typography>{item.localTime}</Typography>
               </Item>
             ))
           ) : (

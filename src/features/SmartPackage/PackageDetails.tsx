@@ -9,7 +9,7 @@ interface PackageInfo {
   delive: string;
   status: 'delivered' | 'retrieved';
   deliveryTime: string;
-  lockerCode: string;
+  code: string;
 }
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -19,22 +19,20 @@ export const PackageDetails = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [packageDetails, setPackageDetails] = useState<PackageInfo | null>(null);
-  const [lockerCode, setLockerCode] = useState<string | null>(null);
   const navigate = useNavigate();
+
+  // Derive lockerCode from packageDetails instead of separate state
+  const lockerCode = packageDetails?.code || null;
 
   const handleBackClick = async () => {
     try {
       await fetch(`${API_BASE_URL}/demo/retrieveEarliestPackage`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
         credentials: 'include',
-        body: JSON.stringify({}),
       });
-      navigate('/smartpackage');
     } catch (err) {
       console.error('Failed to update package status:', err);
+    } finally {
       navigate('/smartpackage');
     }
   };
@@ -55,9 +53,8 @@ export const PackageDetails = () => {
         }
         const data = await response.json();
         setPackageDetails(data);
-        setLockerCode(data.code);
-      } catch (error: any) {
-        setError(error.message);
+      } catch (error: unknown) {
+        setError(error instanceof Error ? error.message : 'An error occurred');
       } finally {
         setLoading(false);
       }
@@ -100,12 +97,17 @@ export const PackageDetails = () => {
           <>
             <Item>
               <Typography>{packageDetails.package}</Typography>
-              <Typography>
-                Delivered {convertToLocalDateTime(packageDetails.deliveryTime).localDate}
-              </Typography>
-              <Typography>
-                {convertToLocalDateTime(packageDetails.deliveryTime).localTime}
-              </Typography>
+              {(() => {
+                const { localDate, localTime } = convertToLocalDateTime(
+                  packageDetails.deliveryTime,
+                );
+                return (
+                  <>
+                    <Typography>Delivered {localDate}</Typography>
+                    <Typography>{localTime}</Typography>
+                  </>
+                );
+              })()}
             </Item>
             <Item sx={{ backgroundColor: '#28a2a2' }}>
               <Typography variant='h6'>Locker Access Code</Typography>
